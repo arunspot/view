@@ -24,7 +24,6 @@ from kivy.core.window import Window
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.config import Config
-Config.set('graphics','resizable','0')
 from datetime import date
 from datetime import datetime
 import sqlite3
@@ -45,7 +44,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS results (
          test_image BLOB
      )
      """)
- 
+
 cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          batch_number TEXT
          test_type TEXT
@@ -62,12 +61,12 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          pt_5 REAL
          val_5 REAL
  )""")
- 
+
 conn.commit()
 conn.close()
- 
+
 camera = PiCamera()
-# 
+#
 class mainsplash(Screen):
 # =============================================================================
     print("mainsplash")
@@ -111,7 +110,7 @@ class instruction(Screen):
          GPIO.output(40, True)
          GPIO.cleanup
          camera.start_preview()
-         time.sleep(3)
+         time.sleep(5)
          camera.capture('/home/pi/view/capturedimage.jpg')
          camera.stop_preview()
          GPIO.output(40,False)
@@ -123,7 +122,7 @@ class instruction(Screen):
     #     peak_ratio = calc_ratio(results_array)
     #     concentration = calconc(peak_ratio, std_curve)
          return concentration
- 
+
     def mov_avgscan(final_image):
          input=final_image
          [a, b] = input.shape[:2]
@@ -139,7 +138,7 @@ class instruction(Screen):
              result_array = np.append(result_array, sum)
              y = y+1
          return result_array
- 
+
     def calc_ratio(result_array):
          dataNew=result_array[1:-1]
          n = len(dataNew)
@@ -147,13 +146,13 @@ class instruction(Screen):
          index1 = 0
          diff = 0
          neg_array = 0
- 
+
          while(index1<n):
              diff=dataNew[base]-dataNew[index1]
              neg_array = np.append(neg_array, diff)
              index1=index1+1
          peaks, _ = find_peaks(neg_array, height=1)
- 
+
          index2 = 0
          points_array = 0
          while(index2<len(peaks)):
@@ -165,7 +164,7 @@ class instruction(Screen):
          print(points_array[n], points_array[n-1])
          peakratio = points_array[n-1]/points_array[n]
          return peakratio
- 
+
     def calconc(peakratio, stdcurve):
          slope = stdcurve[0]
          intercept = stdcurve[1]
@@ -173,14 +172,14 @@ class instruction(Screen):
          if (conc<0):
              conc = 0
          return conc
- 
+
     def decode(batchid):
          global qrval
          global concarray
          global peakarray
          global assaytype
          global unit
- 
+
          mainstr = int(batchid, 16)
          number = str(number)
          conc1 = int(number[0:1])
@@ -190,14 +189,14 @@ class instruction(Screen):
          conc3 = int(number[10:11])
          au3 = float(number[12:14])/100
          unit = "10^-"+number[15]+"mg/ml"
- 
+
          x=np.array([conc1, conc2, conc3])
          y=np.array([au1, au2, au3])
          m,b = np.polyfit(x, y, 1) #calculate the intercept and slope here
          std_curve = [m,b]
          return std_curve
 
- 
+
      #image processing functions
 # =============================================================================
     #error popups for assays which havent run well
@@ -253,9 +252,9 @@ class generatebatchcode(Screen):
 #     pop = Popup(title='Exit' ,
 #                   content = exitlayout, auto_dismiss=False
 #                   size_hint = (None, None), size=(400, 400))
-# 
+#
 #     pop.open()
-# 
+#
 # =============================================================================
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
@@ -274,7 +273,7 @@ sm.add_widget(generatebatchcode(name='newcode'))
 
 class MainApp(App):
     def build(self):
-        Window.size = (800, 470)
+        Window.size = (800, 480)
         return sm
 
 if __name__=="__main__":

@@ -11,7 +11,7 @@
         BoxLayout:
             size_hint_y: 0.9
             Image:
-                source: 'logo.png'
+                source: 'logos.png'
         BoxLayout:
             size_hint_y:0.1
             Button:
@@ -23,13 +23,16 @@
 <enteruserid>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.3
-        pos_hint: {'top':0.7}
+        size_hint_y:0.5
+        #pos_hint: {'top':0.7}
         TextInput:
             id: new_userid
             hint_text: "Enter UserID"
             multiline: False
             markup: True
+            text_size: self.size
+            halign: 'middle'
+            valign: 'middle'
         Label:
             id: text_userid
             text: ""
@@ -326,14 +329,17 @@
 <enterpassword>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.3
-        pos_hint: {'top':0.7}
+        size_hint_y:0.5
+        #pos_hint: {'top':0.7}
         TextInput:
             id: new_password
             password: True
             hint_text: "Enter Password"
             multiline: False
             markup: True
+            text_size: self.size
+            halign: 'middle'
+            valign: 'middle'
         Label:
             id: text_password
             text: ""
@@ -637,8 +643,8 @@
                 size: self.size
                 pos: self.pos
         GridLayout:
-            cols: 2
-            pos_hint: {'center_x':.3, 'center_y':.7}
+            cols: 3
+            #pos_hint: {'center_x':.3, 'center_y':.7}
             size_hint: (None, None)
             spacing: 10
             Button:
@@ -669,21 +675,34 @@
                 #adjust button size and center it
                 #on_press: call instructionc
 
-        BoxLayout:
-            size_hint_y:0.05
-            Label:
-                text: 'choose a mode to continue'
+            Button:
+                size_hint_y: None
+                size_hint_x: None
+                height: 100
+                width: 100
+                text: "History"
+                background_color: (0.06, 0.45, 0.45, 1)
+                background_normal: ''
+                bold: True
+                #on_press: root.manager.current = 'instructionc'
+                #background_normal: 'choosemode_calibrate.png'
+                #adjust button size and center it
+                #on_press: call instructionc
+
 <entersampleid>:
 
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.3
-        pos_hint: {'top':0.7}
+        size_hint_y:0.5
+        #pos_hint: {'top':0.7}
         TextInput:
             id: new_sampleid
             hint_text: "Enter Reqid"
             multiline: False
             markup: True
+            text_size: self.size
+            halign: 'middle'
+            valign: 'middle'
             #create new record with this sample id and send it on sqlite and AWS
         Label:
             id: text_sampleid
@@ -984,13 +1003,16 @@
 <enterbatchcode>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.3
-        pos_hint: {'top':0.7}
+        size_hint_y:0.5
+        #pos_hint: {'top':0.7}
         TextInput:
             id: new_batchid
             hint_text: "Enter Batch Code"
             multiline: False
             markup: True
+            text_size: self.size
+            halign: 'middle'
+            valign: 'middle'
         Label:
             id: text_batchid
             text: ""
@@ -1296,29 +1318,39 @@
                 pos: self.pos
         BoxLayout:
             orientation: 'vertical'
-            size_hint_y: 0.9
+            size_hint_y: 0.8
+            Label:
+                text: ''
+                bold: True
             Label:
                 text: 'Run the sample on the assay'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'Wait for 10 minutes'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'Insert the assay in tray with sample end'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'Ensure that the assay is inserted properly'
                 bold: True
+                text_size: self.size
                 halign: 'left'
 
             #Image:
             #    source: 'instruction1.png'
             #    size: self.texture_size
             BoxLayout:
-                size_hint_y:0.1
+                size_hint_y:0.2
                 Button:
                     text: 'Start test scan'
                     on_press:root.camcapture()
@@ -1344,8 +1376,6 @@
                     bold: True
             BoxLayout:
                 size_hint_y: 0.1
-                Label:
-                    text: "TIME:"
                 Label:
                     text: "27 Oct 2020"
                     markup: True
@@ -1390,9 +1420,11 @@
                 size_hint_y: 0.1
                 Label:
                     text: "VALUE:"
+                    bold: True
                 Label:
                     text: "7.2"
                     markup: True
+                    bold: True
                     #fetch value from the last record
             BoxLayout:
                 size_hint_y: 0.1
@@ -1427,30 +1459,37 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y: 0.9
+            size_hint_y: 0.8
             orientation: 'vertical'
             Label:
                 text: 'Measure signal for known concentrations'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'Use the Add button to add new concentrations'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'Press -> once all samples have been read'
                 bold: True
+                text_size: self.size
                 halign: 'left'
+
             Label:
                 text: 'A batch code encoding the standard curve will be generated.'
                 bold: True
+                text_size: self.size
                 halign: 'left'
 
             #Image:
             #    source: 'instruction2.png'
             #    size: self.texture_size
             BoxLayout:
-                size_hint_y:0.1
+                size_hint_y:0.2
                 Button:
                     text: 'Start calibration'
                     on_press: root.manager.current = 'concentration'
@@ -1501,13 +1540,17 @@
     orientation: 'vertical'
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.3
-        pos_hint: {'top':0.7}
+        size_hint_y:0.5
+        #pos_hint: {'top':0.7}
         TextInput:
             id: new_concid
             hint_text: "Enter Concentration"
             multiline: False
             markup: True
+            text_size: self.size
+            halign: 'middle'
+            valign: 'middle'
+
         Label:
             id: text_concid
             text: ""
@@ -1515,7 +1558,7 @@
             #use this space to error msgs if any
     BoxLayout:
         id: keyboard
-        size_hint_y:0.3
+        size_hint_y:0.5
         GridLayout:
             cols: 4
             rows: 4
