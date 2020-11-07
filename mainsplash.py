@@ -103,7 +103,7 @@ class instruction(Screen):
     def camcapture(self):
          global concentration
          global peak_ratio
-         #std_curve = decode()
+         std_curve = decode()
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)
@@ -115,7 +115,7 @@ class instruction(Screen):
          camera.stop_preview()
          GPIO.output(40,False)
          concentration = 10
-         image = cv2.imread('/home/pi/view/capturedimage.jpg')
+         input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
          roi = input_image[30:290, 375:425]
          cv2.imwrite('/home/pi/view/cropped.jpg',roi)
          results_array = mov_avgscan(roi)
