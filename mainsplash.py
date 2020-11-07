@@ -273,7 +273,7 @@ sm.add_widget(generatebatchcode(name='newcode'))
 
 class MainApp(App):
     def build(self):
-        #Window.size = (800, 480)
+        Window.size = (800, 480)
         return sm
 
 if __name__=="__main__":

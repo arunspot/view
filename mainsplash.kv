@@ -629,18 +629,13 @@
                 #on_press: validate password; if correct move to choosemode
 <choosemode>:
     BoxLayout:
-        orientation: 'vertical'
+        orientation: 'horizontal'
         canvas.before:
             Color:
                 rgba: (1, 1, 1, 1)
             Rectangle:
                 size: self.size
                 pos: self.pos
-        GridLayout:
-            cols: 3
-            pos_hint: {'center_x', 'center_y'}
-            size_hint: (None, None)
-            spacing: 10
             Button:
                 size_hint_y: None
                 size_hint_x: None
