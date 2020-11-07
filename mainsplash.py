@@ -24,6 +24,7 @@ from kivy.core.window import Window
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.config import Config
+from kivy.uix.popup import Popup
 from datetime import date
 from datetime import datetime
 import sqlite3
@@ -70,12 +71,25 @@ camera = PiCamera()
 class mainsplash(Screen):
 # =============================================================================
     print("mainsplash")
-    #click anywhere to continue function
     pass
 
 class enteruserid(Screen):
     print("userid")
-    #check if user id is correct; if not give error message
+
+    def verify_username(self):
+        if self.ids["new_userid"].text == "idsb":
+            root.manager.current='password'
+        else:
+            useridPopUp()
+
+    def useridPopUp(self,title,msg):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = "Userid is incorrect for Deviceid: VIEAS2003"))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, title_size= (30),title_align = 'center', content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
     pass
 
 class enterpassword(Screen):
@@ -103,7 +117,7 @@ class instruction(Screen):
     def camcapture(self):
          global concentration
          global peak_ratio
-         std_curve = decode()
+         #std_curve = decode()
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)

@@ -1,5 +1,4 @@
 <mainsplash>:
-#define button types
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
@@ -17,9 +16,6 @@
             Button:
                 text: 'Continue'
                 on_press: root.manager.current = 'userid'
-            #Label:
-            #    text: 'click anywhere to continue'
-                #include the logic for click anywhere to continue
 <enteruserid>:
     BoxLayout:
         orientation: 'vertical'
@@ -34,7 +30,6 @@
             halign: 'center'
             valign: 'center'
             font_size: 30
-            #add userid incorrect function
     BoxLayout:
         id: keyboard
         size_hint_y:0.5
@@ -321,8 +316,7 @@
                 background_normal: ''
                 text: "->"
                 bold: True
-                on_press: root.manager.current = 'password'
-                #on_press: validate user id, if correct move to password
+                on_press: root.verify_username()
 <enterpassword>:
     BoxLayout:
         orientation: 'vertical'
