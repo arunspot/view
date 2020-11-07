@@ -77,20 +77,11 @@ class enteruserid(Screen):
     print("userid")
 
     def verify_username(self):
+        msg = "Userid is incorrect for Deviceid: VIEAS2003"
         if self.ids["new_userid"].text == "IDSB":
-            root.manager.current='password'
+            self.root.current='password'
         else:
-            useridPopUp()
-
-    def useridPopUp():
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = "Userid is incorrect for Deviceid: VIEAS2003"))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, title_size= (30),title_align = 'center', content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = True)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-    pass
+            PopUp(msg)
 
 class enterpassword(Screen):
     print("password")
@@ -257,6 +248,16 @@ class enterconccard(Screen):
 class generatebatchcode(Screen):
     print("generatedcode")
     pass
+
+def PopUp(self, msg):
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = msg))
+    btn1 = Button(text = "Ok")
+    box.add_widget(btn1)
+    popup = Popup(title=title, title_size= (30),title_align = 'center', content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    btn1.bind(on_press = popup.dismiss)
+    popup.open()
+pass
 
 # =============================================================================
 # def shutdown():
