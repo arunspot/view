@@ -331,8 +331,6 @@
             text_size: self.size
             halign: 'center'
             valign: 'center'
-            font_size: 30
-            #use this space to give error msg if password isn't right
     BoxLayout:
         id: keyboard
         size_hint_y:0.5
@@ -619,8 +617,7 @@
                 background_normal: ''
                 text: "->"
                 bold: True
-                on_press: root.manager.current = 'modes'
-                #on_press: validate password; if correct move to choosemode
+                on_press: root.verify_password()
 <choosemode>:
     BoxLayout:
         orientation: 'horizontal'
@@ -636,38 +633,30 @@
             size_hint_x: None
             height: 100
             width: 100
-            text: "Test"
-            background_color: (0.06, 0.45, 0.45, 1)
-            background_normal: ''
-            bold: True
+            #text: "Test"
+            #background_color: (0.06, 0.45, 0.45, 1)
+            background_normal: 'choosemode_test.png'
+            #bold: True
             on_press: root.manager.current = 'sampleid'
-
-            #background_normal: 'choosemode_test.png'
-            #adjust button size and center it
-            #on_press: call entersampleid
         Button:
             size_hint_y: None
             size_hint_x: None
             height: 100
             width: 100
-            text: "Calibrate"
-            background_color: (0.06, 0.45, 0.45, 1)
-            background_normal: ''
-            bold: True
+            #text: "Calibrate"
+            #background_color: (0.06, 0.45, 0.45, 1)
+            background_normal: 'choosemode_calibrate.png'
+            #bold: True
             on_press: root.manager.current = 'instructionc'
-            #background_normal: 'choosemode_calibrate.png'
-            #adjust button size and center it
-            #on_press: call instructionc
-
         Button:
             size_hint_y: None
             size_hint_x: None
             height: 100
             width: 100
-            text: "History"
-            background_color: (0.06, 0.45, 0.45, 1)
-            background_normal: ''
-            bold: True
+            #text: "History"
+            #background_color: (0.06, 0.45, 0.45, 1)
+            background_normal: 'choosemode_view.png'
+            #bold: True
             #on_press: root.manager.current = 'instructionc'
             #background_normal: 'choosemode_calibrate.png'
             #adjust button size and center it

@@ -86,7 +86,13 @@ class enteruserid(Screen):
 
 class enterpassword(Screen):
     print("password")
-    #check if password is correct; if not give error message
+    def verify_password(self):
+        title = "Wrong Password"
+        msg = "Password is incorrect for Deviceid: VIEAS2003"
+        if self.ids["new_password"].text == "IDS2897":
+            self.manager.current='modes'
+        else:
+            PopUp(self,msg,title)
     pass
 
 class choosemode(Screen):
@@ -95,7 +101,8 @@ class choosemode(Screen):
 
 class entersampleid(Screen):
     print("entersampleid")
-    #check if sampleid is new; if already exists create a popup
+    pass
+
     pass
 
 class enterbatchcode(Screen):
@@ -250,7 +257,7 @@ class generatebatchcode(Screen):
     print("generatedcode")
     pass
 
-def PopUp(self, msg, title):
+def PopUpok(self, msg, title):
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = msg))
     btn1 = Button(text = "Ok")
