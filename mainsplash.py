@@ -77,12 +77,12 @@ class enteruserid(Screen):
     print("userid")
 
     def verify_username(self):
-        if self.ids["new_userid"].text == "idsb":
+        if self.ids["new_userid"].text == "IDSB":
             root.manager.current='password'
         else:
             useridPopUp()
 
-    def useridPopUp(self,title,msg):
+    def useridPopUp():
         box = BoxLayout(orientation = 'vertical', padding = (10))
         box.add_widget(Label(text = "Userid is incorrect for Deviceid: VIEAS2003"))
         btn1 = Button(text = "Ok")
