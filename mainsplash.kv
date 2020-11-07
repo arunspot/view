@@ -621,7 +621,6 @@
 <choosemode>:
     BoxLayout:
         orientation: 'horizontal'
-        center: root.center
         canvas.before:
             Color:
                 rgba: (1, 1, 1, 1)
@@ -633,37 +632,28 @@
             size_hint_x: None
             height: 100
             width: 100
-            #text: "Test"
-            #background_color: (0.06, 0.45, 0.45, 1)
+            pos_hint: {'center_x': .5, 'center_y': .5}
             background_normal: 'choosemode_test.png'
-            #bold: True
+            text: "Test"
             on_press: root.manager.current = 'sampleid'
         Button:
             size_hint_y: None
             size_hint_x: None
             height: 100
             width: 100
-            #text: "Calibrate"
-            #background_color: (0.06, 0.45, 0.45, 1)
+            text: "Calibrate"
             background_normal: 'choosemode_calibrate.png'
-            #bold: True
             on_press: root.manager.current = 'instructionc'
         Button:
             size_hint_y: None
             size_hint_x: None
             height: 100
             width: 100
-            #text: "History"
-            #background_color: (0.06, 0.45, 0.45, 1)
+            text: "History"
             background_normal: 'choosemode_view.png'
-            #bold: True
             #on_press: root.manager.current = 'instructionc'
-            #background_normal: 'choosemode_calibrate.png'
-            #adjust button size and center it
-            #on_press: call instructionc
 
 <entersampleid>:
-
     BoxLayout:
         orientation: 'vertical'
         size_hint_y:0.4

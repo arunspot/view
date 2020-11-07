@@ -257,7 +257,7 @@ class generatebatchcode(Screen):
     print("generatedcode")
     pass
 
-def PopUpok(self, msg, title):
+def PopUp(self, msg, title):
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = msg))
     btn1 = Button(text = "Ok")
