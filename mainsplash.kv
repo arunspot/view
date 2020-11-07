@@ -23,8 +23,8 @@
 <enteruserid>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.5
-        #pos_hint: {'top':0.7}
+        size_hint_y:0.4
+        pos_hint: {'top':0.9}
         TextInput:
             id: new_userid
             hint_text: "Enter UserID"
@@ -32,11 +32,8 @@
             markup: True
             text_size: self.size
             halign: 'center'
-            valign: 'middle'
-        Label:
-            id: text_userid
-            text: ""
-            markup: True
+            valign: 'center'
+            font_size: 30
             #add userid incorrect function
     BoxLayout:
         id: keyboard
@@ -329,8 +326,8 @@
 <enterpassword>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.5
-        #pos_hint: {'top':0.7}
+        size_hint_y:0.4
+        pos_hint: {'top':0.9}
         TextInput:
             id: new_password
             password: True
@@ -339,11 +336,8 @@
             markup: True
             text_size: self.size
             halign: 'center'
-            valign: 'middle'
-        Label:
-            id: text_password
-            text: ""
-            markup: True
+            valign: 'center'
+            font_size: 30
             #use this space to give error msg if password isn't right
     BoxLayout:
         id: keyboard
@@ -644,7 +638,7 @@
                 pos: self.pos
         GridLayout:
             cols: 3
-            #pos_hint: {'center_x':.3, 'center_y':.7}
+            pos_hint: {'center_x', 'center_y'}
             size_hint: (None, None)
             spacing: 10
             Button:
@@ -693,8 +687,8 @@
 
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.5
-        #pos_hint: {'top':0.7}
+        size_hint_y:0.4
+        pos_hint: {'top':0.9}
         TextInput:
             id: new_sampleid
             hint_text: "Enter Reqid"
@@ -702,12 +696,9 @@
             markup: True
             text_size: self.size
             halign: 'center'
-            valign: 'middle'
+            valign: 'center'
+            font_size: 30
             #create new record with this sample id and send it on sqlite and AWS
-        Label:
-            id: text_sampleid
-            text: ""
-            markup: True
             #use this space to error msgs if any
     BoxLayout:
         id: keyboard
@@ -1003,8 +994,8 @@
 <enterbatchcode>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.5
-        #pos_hint: {'top':0.7}
+        size_hint_y:0.4
+        pos_hint: {'top':0.9}
         TextInput:
             id: new_batchid
             hint_text: "Enter Batch Code"
@@ -1012,11 +1003,8 @@
             markup: True
             text_size: self.size
             halign: 'center'
-            valign: 'middle'
-        Label:
-            id: text_batchid
-            text: ""
-            markup: True
+            valign: 'center'
+            font_size: 30
             #use this space to error msgs if any
     BoxLayout:
         id: keyboard
@@ -1353,6 +1341,8 @@
                 size_hint_y:0.2
                 Button:
                     text: 'Start test scan'
+                    font_size: 30
+                    bold: True
                     on_press:root.camcapture()
                     on_release: root.manager.current = 'resultcard'
 
@@ -1492,6 +1482,7 @@
                 size_hint_y:0.2
                 Button:
                     text: 'Start calibration'
+                    bold: True
                     on_press: root.manager.current = 'concentration'
                     #include the logic for click anywhere to continue move to enterconc page
 
@@ -1540,8 +1531,8 @@
     orientation: 'vertical'
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.5
-        #pos_hint: {'top':0.7}
+        size_hint_y:0.4
+        pos_hint: {'top':0.9}
         TextInput:
             id: new_concid
             hint_text: "Enter Concentration"
@@ -1549,7 +1540,8 @@
             markup: True
             text_size: self.size
             halign: 'center'
-            valign: 'middle'
+            valign: 'center'
+            font_size: 30
 
         Label:
             id: text_concid
