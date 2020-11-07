@@ -115,12 +115,12 @@ class instruction(Screen):
          camera.stop_preview()
          GPIO.output(40,False)
          concentration = 10
-     #    image = cv2.imread('/home/pi/view/capturedimage.jpg')
-    #     roi = input_image[30:290, 375:425]
-    #     cv2.imwrite('/home/pi/view/cropped.jpg',roi)
-    #     results_array = mov_avgscan(roi)
-    #     peak_ratio = calc_ratio(results_array)
-    #     concentration = calconc(peak_ratio, std_curve)
+         image = cv2.imread('/home/pi/view/capturedimage.jpg')
+         roi = input_image[30:290, 375:425]
+         cv2.imwrite('/home/pi/view/cropped.jpg',roi)
+         results_array = mov_avgscan(roi)
+         peak_ratio = calc_ratio(results_array)
+         concentration = calconc(peak_ratio, std_curve)
          return concentration
 
     def mov_avgscan(final_image):
@@ -130,7 +130,7 @@ class instruction(Screen):
          x = 1
          y = 1
          sum = 0
-         while (y<(a-5)): #or y<h what should be done for this camera orientation
+         while (y<(a-5)):
              line = input[y:y+3, x:x+b]
              avg_color_per_row = np.average(line, axis=0)
              avg_color = np.average(avg_color_per_row, axis=0)
@@ -196,8 +196,6 @@ class instruction(Screen):
          std_curve = [m,b]
          return std_curve
 
-
-     #image processing functions
 # =============================================================================
     #error popups for assays which havent run well
     pass
@@ -273,7 +271,7 @@ sm.add_widget(generatebatchcode(name='newcode'))
 
 class MainApp(App):
     def build(self):
-        Window.size = (800, 480)
+        Window.size = (800, 500)
         return sm
 
 if __name__=="__main__":

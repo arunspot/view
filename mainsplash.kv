@@ -630,6 +630,7 @@
 <choosemode>:
     BoxLayout:
         orientation: 'horizontal'
+        center: root.center
         canvas.before:
             Color:
                 rgba: (1, 1, 1, 1)
@@ -1537,11 +1538,6 @@
             halign: 'center'
             valign: 'center'
             font_size: 30
-
-        Label:
-            id: text_concid
-            text: ""
-            markup: True
             #use this space to error msgs if any
     BoxLayout:
         id: keyboard
