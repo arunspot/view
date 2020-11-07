@@ -77,7 +77,7 @@ class enteruserid(Screen):
     print("userid")
 
     def verify_username(self):
-        title = "Wrong Userid"
+        title = "Wrong UserId"
         msg = "Userid is incorrect for Deviceid: VIEAS2003"
         if self.ids["new_userid"].text == "IDSB":
             self.manager.current='password'
@@ -251,9 +251,11 @@ class generatebatchcode(Screen):
     pass
 
 def PopUp(self, msg, title):
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = msg))
     btn1 = Button(text = "Ok")
     box.add_widget(btn1)
-    popup = Popup(title=title, content = (Label(text = msg)),size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     btn1.bind(on_press = popup.dismiss)
     popup.open()
 pass
