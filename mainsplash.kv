@@ -8,7 +8,7 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y: 0.9
+            size_hint_y: 0.8
             Image:
                 source: 'logos.png'
         BoxLayout:
@@ -16,1311 +16,865 @@
             Button:
                 text: 'Continue'
                 on_press: root.manager.current = 'userid'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
+
+<KeyboardButton>:
+    background_color: (0.06, 0.45, 0.45, 1)
+    background_normal: ''
+    bold: True
+    font_size: 10
+
 <enteruserid>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.4
-        pos_hint: {'top':0.9}
-        TextInput:
-            id: new_userid
-            hint_text: "Enter UserID"
-            multiline: False
-            markup: True
-            text_size: self.size
-            halign: 'center'
-            valign: 'center'
-            font_size: 30
-    BoxLayout:
-        id: keyboard
-        size_hint_y:0.5
-        GridLayout:
-            cols: 8
-            rows: 5
-            spacing: 1
-            Button:
-                id:1
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "1"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:2
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "2"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:3
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "3"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:4
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "4"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:5
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "5"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:6
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "6"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:7
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "7"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:8
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "8"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:9
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "9"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:10
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "0"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:11
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "A"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:12
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "B"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:13
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "C"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:14
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "D"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:15
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "E"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:16
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "F"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:17
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "G"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:18
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "H"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:19
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "I"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:20
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "J"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:21
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "K"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:22
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "L"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:23
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "M"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:24
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "N"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:25
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "O"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:26
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "P"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:27
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Q"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:28
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "R"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:29
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "S"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:30
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "T"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:31
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "U"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:32
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "V"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:33
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "W"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:34
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "X"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:35
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Y"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:36
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Z"
-                bold: True
-                on_press: new_userid.text += self.text
-            Button:
-                id:37
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "."
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:38
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "#"
-                bold: True
-                on_press: new_userid.text+=self.text
-            Button:
-                id:39
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "<-"
-                bold: True
-                on_press: new_userid.text = new_userid.text[:-1]
-            Button:
-                id:40
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "->"
-                bold: True
-                on_press: root.verify_username()
-<enterpassword>:
-    BoxLayout:
-        orientation: 'vertical'
-        size_hint_y:0.4
-        pos_hint: {'top':0.9}
-        TextInput:
-            id: new_password
-            password: True
-            hint_text: "Enter Password"
-            multiline: False
-            markup: True
-            text_size: self.size
-            halign: 'center'
-            valign: 'center'
-    BoxLayout:
-        id: keyboard
-        size_hint_y:0.5
-        GridLayout:
-            cols: 8
-            rows: 5
-            spacing: 1
-            Button:
-                id:1
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "1"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:2
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "2"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:3
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "3"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:4
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "4"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:5
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "5"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:6
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "6"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:7
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "7"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:8
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "8"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:9
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "9"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:10
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "0"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:11
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "A"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:12
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "B"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:13
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "C"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:14
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "D"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:15
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "E"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:16
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "F"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:17
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "G"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:18
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "H"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:19
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "I"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:20
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "J"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:21
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "K"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:22
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "L"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:23
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "M"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:24
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "N"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:25
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "O"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:26
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "P"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:27
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Q"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:28
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "R"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:29
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "S"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:30
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "T"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:31
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "U"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:32
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "V"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:33
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "W"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:34
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "X"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:35
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Y"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:36
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Z"
-                bold: True
-                on_press: new_password.text += self.text
-            Button:
-                id:37
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "."
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:38
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "#"
-                bold: True
-                on_press: new_password.text+=self.text
-            Button:
-                id:39
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "<-"
-                bold: True
-                on_press: new_password.text = new_password.text[:-1]
-            Button:
-                id:40
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "->"
-                bold: True
-                on_press: root.verify_password()
-<choosemode>:
-    BoxLayout:
-        orientation: 'horizontal'
         canvas.before:
             Color:
                 rgba: (1, 1, 1, 1)
             Rectangle:
                 size: self.size
                 pos: self.pos
-        Button:
-            size_hint_y: None
-            size_hint_x: None
-            height: 100
-            width: 100
-            pos_hint: {'center_x': 0.3, 'center_y': 0.5}
-            background_normal: 'choosemode_test.png'
-            text: "Test"
-            on_press: root.manager.current = 'sampleid'
-        Button:
-            size_hint_y: None
-            size_hint_x: None
-            height: 100
-            width: 100
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            text: "Calibrate"
-            background_normal: 'choosemode_calibrate.png'
-            on_press: root.manager.current = 'instructionc'
-        Button:
-            size_hint_y: None
-            size_hint_x: None
-            height: 100
-            width: 100
-            text: "History"
-            background_normal: 'choosemode_view.png'
-            pos_hint: {'center_x': 0.7, 'center_y': 0.5}
-            #on_press: root.manager.current = 'instructionc'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y:0.4
+            pos_hint: {'top':0.9}
+            TextInput:
+                id: new_userid
+                hint_text: "Enter UserID"
+                multiline: False
+                markup: True
+                text_size: self.size
+                halign: 'center'
+                valign: 'center'
+                font_size: 30
+        BoxLayout:
+            id: keyboard
+            size_hint_y:0.4
+            GridLayout:
+                cols: 8
+                rows: 5
+                spacing: 1
+                KeyboardButton:
+                    id:1
+                    text: "1"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:2
+                    text: "2"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:3
+                    text: "3"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:4
+                    text: "4"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:5
+                    text: "5"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:6
+                    text: "6"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:7
+                    text: "7"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:8
+                    text: "8"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:9
+                    text: "9"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:10
+                    text: "0"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:11
+                    text: "A"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:12
+                    text: "B"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:13
+                    text: "C"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:14
+                    text: "D"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:15
+                    text: "E"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:16
+                    text: "F"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:17
+                    text: "G"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:18
+                    text: "H"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:19
+                    text: "I"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:20
+                    text: "J"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:21
+                    text: "K"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:22
+                    text: "L"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:23
+                    text: "M"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:24
+                    text: "N"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:25
+                    text: "O"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:26
+                    text: "P"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:27
+                    text: "Q"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:28
+                    text: "R"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:29
+                    text: "S"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:30
+                    text: "T"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:31
+                    text: "U"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:32
+                    text: "V"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:33
+                    text: "W"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:34
+                    text: "X"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:35
+                    text: "Y"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:36
+                    text: "Z"
+                    on_press: new_userid.text += self.text
+                KeyboardButton:
+                    id:37
+                    text: "."
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:38
+                    text: "#"
+                    on_press: new_userid.text+=self.text
+                KeyboardButton:
+                    id:39
+                    text: "<-"
+                    on_press: new_userid.text = new_userid.text[:-1]
+                KeyboardButton:
+                    id:40
+                    text: "->"
+                    on_press: root.verify_username()
+            BoxLayout:
+                size_hint_y:0.1
+                Button:
+                    text: 'ShutDown'
+                    on_press: root.shutdown()
+
+<enterpassword>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y:0.4
+            TextInput:
+                id: new_password
+                password: True
+                hint_text: "Enter Password"
+                multiline: False
+                markup: True
+                text_size: self.size
+                halign: 'center'
+        BoxLayout:
+            id: keyboard
+            size_hint_y:0.4
+            GridLayout:
+                cols: 8
+                rows: 5
+                spacing: 1
+                KeyboardButton:
+                    id:1
+                    text: "1"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:2
+                    text: "2"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:3
+                    text: "3"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:4
+                    text: "4"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:5
+                    text: "5"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:6
+                    text: "6"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:7
+                    text: "7"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:8
+                    text: "8"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:9
+                    text: "9"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:10
+                    text: "0"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:11
+                    text: "A"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:12
+                    text: "B"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:13
+                    text: "C"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:14
+                    text: "D"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:15
+                    text: "E"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:16
+                    text: "F"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:17
+                    text: "G"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:18
+                    text: "H"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:19
+                    text: "I"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:20
+                    text: "J"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:21
+                    text: "K"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:22
+                    text: "L"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:23
+                    text: "M"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:24
+                    text: "N"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:25
+                    text: "O"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:26
+                    text: "P"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:27
+                    text: "Q"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:28
+                    text: "R"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:29
+                    text: "S"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:30
+                    text: "T"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:31
+                    text: "U"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:32
+                    text: "V"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:33
+                    text: "W"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:34
+                    text: "X"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:35
+                    text: "Y"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:36
+                    text: "Z"
+                    on_press: new_password.text += self.text
+                KeyboardButton:
+                    id:37
+                    text: "."
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:38
+                    text: "#"
+                    on_press: new_password.text+=self.text
+                KeyboardButton:
+                    id:39
+                    text: "<-"
+                    on_press: new_password.text = new_password.text[:-1]
+                KeyboardButton:
+                    id:40
+                    text: "->"
+                    on_press: root.verify_password()
+            BoxLayout:
+                size_hint_y:0.1
+                Button:
+                    text: 'ShutDown'
+                    on_press: root.shutdown()
+<choosemode>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        GridLayout:
+            cols: 3
+            rows: 1
+            spacing: 10
+            size_hint_y: 0.8
+            Button:
+                size_hint_y: None
+                size_hint_x: None
+                height: 100
+                width: 100
+                background_normal: 'choosemode_test.png'
+                on_press: root.manager.current = 'sampleid'
+            Button:
+                size_hint_y: None
+                size_hint_x: None
+                height: 100
+                width: 100
+                background_normal: 'choosemode_calibrate.png'
+                on_press: root.manager.current = 'instructionc'
+            Button:
+                size_hint_y: None
+                size_hint_x: None
+                height: 100
+                width: 100
+                background_normal: 'choosemode_view.png'
+                on_press: root.manager.current = 'history'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
 <entersampleid>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.4
-        pos_hint: {'top':0.9}
-        TextInput:
-            id: new_sampleid
-            hint_text: "Enter Reqid"
-            multiline: False
-            markup: True
-            text_size: self.size
-            halign: 'center'
-            valign: 'center'
-            font_size: 30
-            #create new record with this sample id and send it on sqlite and AWS
-            #use this space to error msgs if any
-    BoxLayout:
-        id: keyboard
-        size_hint_y:0.5
-        GridLayout:
-            cols: 8
-            rows: 5
-            spacing: 1
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y:0.4
+            TextInput:
+                id: new_sampleid
+                hint_text: "Enter Sample id"
+                multiline: False
+                text_size: self.size
+                halign: 'center'
+                font_size: 30
+        BoxLayout:
+            id: keyboard
+            size_hint_y:0.4
+            GridLayout:
+                cols: 8
+                rows: 5
+                spacing: 1
+                KeyboardButton:
+                    id:1
+                    text: "1"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:2
+                    text: "2"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:3
+                    text: "3"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:4
+                    text: "4"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:5
+                    text: "5"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:6
+                    text: "6"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:7
+                    text: "7"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:8
+                    text: "8"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:9
+                    text: "9"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:10
+                    text: "0"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:11
+                    text: "A"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:12
+                    text: "B"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:13
+                    text: "C"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:14
+                    text: "D"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:15
+                    text: "E"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:16
+                    text: "F"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:17
+                    text: "G"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:18
+                    text: "H"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:19
+                    text: "I"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:20
+                    text: "J"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:21
+                    text: "K"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:22
+                    text: "L"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:23
+                    text: "M"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:24
+                    text: "N"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:25
+                    text: "O"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:26
+                    text: "P"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:27
+                    text: "Q"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:28
+                    text: "R"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:29
+                    text: "S"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:30
+                    text: "T"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:31
+                    text: "U"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:32
+                    text: "V"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:33
+                    text: "W"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:34
+                    text: "X"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:35
+                    text: "Y"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:36
+                    text: "Z"
+                    on_press: new_sampleid.text += self.text
+                KeyboardButton:
+                    id:37
+                    text: "."
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:38
+                    text: "#"
+                    on_press: new_sampleid.text+=self.text
+                KeyboardButton:
+                    id:39
+                    text: "<-"
+                    on_press: new_sampleid.text = new_sampleid.text[:-1]
+                KeyboardButton:
+                    id:40
+                    text: "->"
+                    on_press: root.manager.current = 'batchcode'
+        BoxLayout:
+            size_hint_y:0.1
             Button:
-                id:1
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "1"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:2
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "2"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:3
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "3"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:4
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "4"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:5
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "5"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:6
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "6"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:7
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "7"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:8
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "8"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:9
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "9"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:10
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "0"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:11
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "A"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:12
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "B"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:13
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "C"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:14
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "D"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:15
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "E"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:16
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "F"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:17
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "G"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:18
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "H"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:19
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "I"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:20
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "J"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:21
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "K"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:22
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "L"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:23
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "M"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:24
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "N"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:25
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "O"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:26
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "P"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:27
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Q"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:28
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "R"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:29
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "S"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:30
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "T"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:31
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "U"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:32
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "V"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:33
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "W"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:34
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "X"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:35
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Y"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:36
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Z"
-                bold: True
-                on_press: new_sampleid.text += self.text
-            Button:
-                id:37
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "."
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:38
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "#"
-                bold: True
-                on_press: new_sampleid.text+=self.text
-            Button:
-                id:39
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "<-"
-                bold: True
-                on_press: new_sampleid.text = new_sampleid.text[:-1]
-            Button:
-                id:40
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "->"
-                bold: True
-                on_press: root.manager.current = 'batchcode'
-                #on_press: validate userid; generate popup if sampleid already exists move to enterbatchcode
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
-#add a page for selecting assay type dropdown menu
+#<entertesttype>:
+##------add dropdown and test type selection------##
 
 <enterbatchcode>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.4
-        pos_hint: {'top':0.9}
-        TextInput:
-            id: new_batchid
-            hint_text: "Enter Batch Code"
-            multiline: False
-            markup: True
-            text_size: self.size
-            halign: 'center'
-            valign: 'center'
-            font_size: 30
-            #use this space to error msgs if any
-    BoxLayout:
-        id: keyboard
-        size_hint_y:0.5
-        GridLayout:
-            cols: 8
-            rows: 5
-            spacing: 1
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y:0.4
+            TextInput:
+                id: new_batchid
+                hint_text: "Enter Batch Code"
+                multiline: False
+                markup: True
+                text_size: self.size
+                halign: 'center'
+                font_size: 30
+
+        BoxLayout:
+            id: keyboard
+            size_hint_y:0.4
+            GridLayout:
+                cols: 8
+                rows: 5
+                spacing: 1
+                KeyboardButton:
+                    id:1
+                    text: "1"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:2
+                    text: "2"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:3
+                    text: "3"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:4
+                    text: "4"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:5
+                    text: "5"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:6
+                    text: "6"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:7
+                    text: "7"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:8
+                    text: "8"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:9
+                    text: "9"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:10
+                    text: "0"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:11
+                    text: "A"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:12
+                    text: "B"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:13
+                    text: "C"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:14
+                    text: "D"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:15
+                    text: "E"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:16
+                    text: "F"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:17
+                    text: "G"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:18
+                    text: "H"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:19
+                    text: "I"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:20
+                    text: "J"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:21
+                    text: "K"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:22
+                    text: "L"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:23
+                    text: "M"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:24
+                    text: "N"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:25
+                    text: "O"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:26
+                    text: "P"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:27
+                    text: "Q"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:28
+                    text: "R"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:29
+                    text: "S"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:30
+                    text: "T"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:31
+                    text: "U"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:32
+                    text: "V"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:33
+                    text: "W"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:34
+                    text: "X"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:35
+                    text: "Y"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:36
+                    text: "Z"
+                    on_press: new_batchid.text += self.text
+                KeyboardButton:
+                    id:37
+                    text: "."
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:38
+                    text: "#"
+                    on_press: new_batchid.text+=self.text
+                KeyboardButton:
+                    id:39
+                    text: "<-"
+                    on_press: new_batchid.text = new_batchid.text[:-1]
+                KeyboardButton:
+                    id:40
+                    text: "->"
+                    on_press: root.read_batchid()
+        BoxLayout:
+            size_hint_y:0.1
             Button:
-                id:1
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "1"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:2
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "2"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:3
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "3"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:4
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "4"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:5
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "5"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:6
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "6"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:7
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "7"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:8
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "8"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:9
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "9"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:10
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "0"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:11
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "A"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:12
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "B"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:13
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "C"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:14
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "D"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:15
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "E"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:16
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "F"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:17
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "G"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:18
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "H"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:19
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "I"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:20
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "J"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:21
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "K"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:22
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "L"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:23
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "M"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:24
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "N"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:25
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "O"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:26
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "P"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:27
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Q"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:28
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "R"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:29
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "S"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:30
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "T"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:31
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "U"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:32
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "V"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:33
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "W"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:34
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "X"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:35
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Y"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:36
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Z"
-                bold: True
-                on_press: new_batchid.text += self.text
-            Button:
-                id:37
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "."
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:38
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "#"
-                bold: True
-                on_press: new_batchid.text+=self.text
-            Button:
-                id:39
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "<-"
-                bold: True
-                on_press: new_batchid.text = new_batchid.text[:-1]
-            Button:
-                id:40
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "->"
-                bold: True
-                on_press: root.manager.current = 'instruction'
-                #on_press: validate batch_code and create pop.up if its not right
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
 <instruction>:
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: (0.06, 0.45, 0.45, 1)
+                rgba: (1, 1, 1, 1)
             Rectangle:
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            orientation: 'vertical'
             size_hint_y: 0.8
-            Label:
-                text: ''
-                bold: True
-            Label:
-                text: 'Run the sample on the assay'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            Label:
-                text: 'Wait for 10 minutes'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            Label:
-                text: 'Insert the assay in tray with sample end'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            Label:
-                text: 'Ensure that the assay is inserted properly'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            #Image:
-            #    source: 'instruction1.png'
-            #    size: self.texture_size
-            BoxLayout:
-                size_hint_y:0.2
-                Button:
-                    text: 'Start test scan'
-                    font_size: 30
-                    bold: True
-                    on_press:root.camcapture()
-                    on_release: root.manager.current = 'resultcard'
+            Image:
+                source: 'test_instruction.png'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'Start Test'
+                on_press: root.camcapture()
+                on_release: root.manager.current = 'resultcard'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
 <resultcardtest>:
     BoxLayout:
         orientation: 'vertical'
-
         canvas.before:
             Color:
                 rgba: (0.06, 0.45, 0.45, 1)
@@ -1338,124 +892,162 @@
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
-                    text: "27 Oct 2020"
-                    markup: True
-                    #display system date
+                    text: str(datetime.date.today())
                 Label:
-                    text: "03:00 pm"
-                    markup: True
-                    #display system time
+                    text: str(datetime.datetime.now())
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
-                    text: "Location:"
+                    text: "SAMPLE ID:"
                 Label:
-                    text:"..."
-                    markup: True
-                    #fetch system location
-            BoxLayout:
-                size_hint_y: 0.1
-                Label:
-                    text: "REQ ID:"
-                Label:
-                    text: "12673"
-                    markup: True
-                    #fetch sampleid from the last record
+                    text: root.entersampleid.sampleid
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
                     text: "TEST:"
                 Label:
                     text: "CRP (ng/ml)"
-                    markup: True
-                    #fetch assay type from the last record and unit from batch code
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
                     text: "BATCH CODE:"
                 Label:
-                    text: "A0912109"
-                    markup: True
-                    #fetch batchcode from the last record
+                    text: "to be calculated"
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
                     text: "VALUE:"
                     bold: True
                 Label:
-                    text: "7.2"
-                    markup: True
+                    text: str(root.instruction.concentration)
                     bold: True
-                    #fetch value from the last record
-            BoxLayout:
-                size_hint_y: 0.1
-                Label:
-                    text: "RANGE:"
-                Label:
-                    text: "< 100 ng/ml"
-                    markup: True
-                    #how will we make this dynamic
             BoxLayout:
                 size_hint_y: 0.1
                 Button:
                     text: "Save Results"
-                    on_press: root.manager.current = 'modes'
-                    #send data on to aws
+                    on_press: root.saveresults()
                 Button:
                     text: "Discard"
-                    on_press: root.manager.current = 'modes'
-                    #delete last record if this button is chosen
-        BoxLayout:
-            size_hint_y:0.1
-            Label:
-                text: 'Choose save to archive the results'
+                    on_press: root.discardresults()
+           BoxLayout:
+                size_hint_y:0.1
+                Button:
+                    text: 'ShutDown'
+                    on_press: root.shutdown()
 
 <instructionc>:
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: (0.06, 0.45, 0.45, 1)
+                rgba: (1, 1, 1, 1)
             Rectangle:
                 size: self.size
                 pos: self.pos
         BoxLayout:
             size_hint_y: 0.8
-            orientation: 'vertical'
-            Label:
-                text: 'Measure signal for known concentrations'
-                bold: True
-                text_size: self.size
-                halign: 'left'
+            Image:
+                source: 'calibration_instruction.png'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'Start Test'
+                on_press: root.manager.current='concentration'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
-            Label:
-                text: 'Use the Add button to add new concentrations'
-                bold: True
+<enterconccard>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            size_hint_y:0.4
+            TextInput:
+                id: new_concid
+                hint_text: "Enter Concentration"
+                multiline: False
+                markup: True
                 text_size: self.size
-                halign: 'left'
-
-            Label:
-                text: 'Press -> once all samples have been read'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            Label:
-                text: 'A batch code encoding the standard curve will be generated.'
-                bold: True
-                text_size: self.size
-                halign: 'left'
-
-            #Image:
-            #    source: 'instruction2.png'
-            #    size: self.texture_size
-            BoxLayout:
-                size_hint_y:0.2
-                Button:
-                    text: 'Start calibration'
-                    bold: True
-                    on_press: root.manager.current = 'concentration'
-                    #include the logic for click anywhere to continue move to enterconc page
+                halign: 'center'
+                font_size: 30
+        BoxLayout:
+            id: keyboard
+            size_hint_y:0.4
+            GridLayout:
+                cols: 4
+                rows: 4
+                spacing: 1
+                KeyboardButton:
+                    id:1
+                    text: "1"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:2
+                    text: "2"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:3
+                    text: "3"
+                    on_press: new_concid.text += self.text
+                KeyboardButton:
+                    id:4
+                    text: "4"
+                    on_press: new_concid.text += self.text
+                KeyboardButton:
+                    id:5
+                    text: "5"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:6
+                    text: "6"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:7
+                    text: "7"
+                    on_press: new_concid.text += self.text
+                KeyboardButton:
+                    id:8
+                    text: "8"
+                    on_press: new_concid.text += self.text
+                KeyboardButton:
+                    id:9
+                    text: "9"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:10
+                    text: "0"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:37
+                    text: "."
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:38
+                    text: "#"
+                    on_press: new_concid.text+=self.text
+                KeyboardButton:
+                    id:39
+                    text: "<-"
+                    on_press: new_concid.text = new_concid.text[:-1]
+                KeyboardButton:
+                    id:40
+                    text: "Add"
+                    on_press: root.read_testassay()
+                KeyboardButton:
+                    id:41
+                    text: "Save"
+                    on_press: root.gencode()
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
 <generatebatchcode>:
     BoxLayout:
@@ -1465,7 +1057,7 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y: 0.9
+            size_hint_y: 0.8
             orientation: 'vertical'
             BoxLayout:
                 size_hint_y: 0.2
@@ -1477,160 +1069,48 @@
                 Label:
                     text: "TIME:"
                 Label:
-                    text: "27 Oct 2020"
-                    markup: True
-                    #fetch system date
+                    text: str(datetime.date.today())
                 Label:
-                    text: "03:15 pm"
-                    markup: True
-                    #fetch system time
+                    text: str(datetime.datetime.now())
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
                     text: "BATCH CODE:"
                 Label:
-                    text: "A31450D"
-                    markup: True
-                    #calculate batchcode and add it here
+                    text: root.enterconccard.batchid
         BoxLayout:
             size_hint_y:0.1
             Button:
                 text: 'Continue'
                 on_press: root.manager.current = 'modes'
-                #move to choosemode page
-<enterconccard>:
-    orientation: 'vertical'
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
+<resultview>:
     BoxLayout:
         orientation: 'vertical'
-        size_hint_y:0.4
-        pos_hint: {'top':0.9}
-        TextInput:
-            id: new_concid
-            hint_text: "Enter Concentration"
-            multiline: False
-            markup: True
-            text_size: self.size
-            halign: 'center'
-            valign: 'center'
-            font_size: 30
-            #use this space to error msgs if any
-    BoxLayout:
-        id: keyboard
-        size_hint_y:0.5
-        GridLayout:
-            cols: 4
-            rows: 4
-            spacing: 1
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Button:
+            size_hint_y:0.2
+            text: "Get data"
+            on_press: root.get_data()
+        RecycleView:
+            size_hint_y:0.7
+            data: [{'text':"Sample_Id:{} Batch_Id:{} Test_type:{} Value:{} Unit:{}".format(Sample_Id,Batch_Id,Test_type,Value,Unit)} for Sample_Id,Batch_Id,Test_type,Value,Unit in root.rows]
+            viewclass: "Label"
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+        BoxLayout:
+            size_hint_y:0.1
             Button:
-                id:1
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "1"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:2
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "2"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:3
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "3"
-                bold: True
-                on_press: new_concid.text += self.text
-            Button:
-                id:4
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "4"
-                bold: True
-                on_press: new_concid.text += self.text
-            Button:
-                id:5
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "5"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:6
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "6"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:7
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "7"
-                bold: True
-                on_press: new_concid.text += self.text
-            Button:
-                id:8
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "8"
-                bold: True
-                on_press: new_concid.text += self.text
-            Button:
-                id:9
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "9"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:10
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "0"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:37
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "."
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:38
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "#"
-                bold: True
-                on_press: new_concid.text+=self.text
-            Button:
-                id:39
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "<-"
-                bold: True
-                on_press: new_concid.text = new_concid.text[:-1]
-            Button:
-                id:40
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Add"
-                bold: True
-                #on_press: send data
-                on_press: root.manager.current = 'concentration'
-            Button:
-                id:41
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "->"
-                bold: True
-                on_press: root.manager.current = 'newcode'
-            Button:
-                id:42
-                background_color: (0.06, 0.45, 0.45, 1)
-                background_normal: ''
-                text: "Reset"
-                bold: True
-                #on_press: new_concid.text += self.text
+                text: 'ShutDown'
+                on_press: root.shutdown()

@@ -25,19 +25,20 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.config import Config
 from kivy.uix.popup import Popup
+from kivy.uix.dropdown import DropDown
 from datetime import date
 from datetime import datetime
 import sqlite3
+from subprocess import call
 
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS results (
          sample_id TEXT
-         batch_number TEXT
+         batch_id TEXT
          date TEXT
          time TEXT
-         location TEXT
          test_type TEXT
          assay_type TEXT
          conc_result REAL
@@ -63,18 +64,16 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          val_5 REAL
  )""")
 
+ #dynamically create calibrations table; dynamic number of rows
+
 conn.commit()
-conn.close()
 
 camera = PiCamera()
-#
+
 class mainsplash(Screen):
-# =============================================================================
-    print("mainsplash")
     pass
 
 class enteruserid(Screen):
-    print("userid")
 
     def verify_username(self):
         title = "Wrong UserId"
@@ -83,9 +82,10 @@ class enteruserid(Screen):
             self.manager.current='password'
         else:
             PopUp(self,msg,title)
+    pass
 
 class enterpassword(Screen):
-    print("password")
+
     def verify_password(self):
         title = "Wrong Password"
         msg = "Password is incorrect for Deviceid: VIEAS2003"
@@ -96,44 +96,82 @@ class enterpassword(Screen):
     pass
 
 class choosemode(Screen):
-    print("choosemode")
+    # add a screen after choose mode for which test
     pass
 
 class entersampleid(Screen):
-    print("entersampleid")
+    global sample_id
+    sample_id = self.ids["new_sampleid"].text
+    title = "Existing SampleID"
+    msg = "SampleID already exists. Please enter a different id"
+
+    def verify_sampleid(self):
+        cursor.execute("""SELECT sample_id
+                   FROM results
+                   WHERE sample_id=?""",
+                (sample_id))
+        check = cursor.fetchone()
+        if result:
+            Popup(self,msg,title)
+        else:
+            self.manager.current='testtype'
     pass
 
+class entertesttype(Screen):
     pass
 
 class enterbatchcode(Screen):
-    print("enterbatchcode")
-    #validate batchcode; if not create a popup
+    global batchcode
+    global std_curve
+    global datenow
+    global timenow
+    today = date.today()
+    datenow = today.strftime("%B %d, %Y")
+    timenow = datetime.now()
+    batchid = self.ids["new_batchid"].text
+    title = "Batchid Error"
+    msg = "Error reading Batchid, please reenter"
+    def read_batchid(self):
+        try:
+            std_curve = decode(batchid)
+            cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, test_type, assay_type, unit) VALUES (?, ?, ?, ?, ?, ?, ?)", (sample_id, batchid, datenow, timenow, testtype, assaytype, unit))
+            conn.commit()
+            self.manager.current='instruction'
+        except:
+            Popup(self,msg,title)
     pass
 
 class instruction(Screen):
-    print("instructions")
-# =============================================================================
+
     def camcapture(self):
          global concentration
          global peak_ratio
-         #std_curve = decode()
-         GPIO.setwarnings(False)
-         GPIO.setmode(GPIO.BOARD)
-         GPIO.setup(40, GPIO.OUT)
-         GPIO.output(40, True)
-         GPIO.cleanup
-         camera.start_preview()
-         time.sleep(5)
-         camera.capture('/home/pi/view/capturedimage.jpg')
-         camera.stop_preview()
-         GPIO.output(40,False)
-         concentration = 10
+         try:
+             GPIO.setwarnings(False)
+             GPIO.setmode(GPIO.BOARD)
+             GPIO.setup(40, GPIO.OUT)
+             GPIO.output(40, True)
+             GPIO.cleanup
+             camera.start_preview()
+             time.sleep(3)
+             camera.capture('/home/pi/view/capturedimage.jpg')
+             camera.stop_preview()
+             GPIO.output(40,False)
+         except:
+             title = "Camera Error"
+             msg = "Error starting camera, please call support"
+             Popup(self,msg,title)
          input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
          roi = input_image[30:290, 375:425]
-         cv2.imwrite('/home/pi/view/cropped.jpg',roi)
-         results_array = mov_avgscan(roi)
-         peak_ratio = calc_ratio(results_array)
-         concentration = calconc(peak_ratio, std_curve)
+         cv2.imwrite('/home/pi/view/roi.jpg',roi)
+         try:
+             results_array = mov_avgscan(roi)
+             peak_ratio = calc_ratio(results_array)
+             concentration = calconc(peak_ratio, std_curve)
+         except:
+             title = "Error reading test"
+             msg = "Please ensure test has run properly"
+             Popup(self,msg,title)
          return concentration
 
     def mov_avgscan(final_image):
@@ -143,11 +181,12 @@ class instruction(Screen):
          x = 1
          y = 1
          sum = 0
-         while (y<(a-5)):
+         while (y<(a-3)):
              line = input[y:y+3, x:x+b]
              avg_color_per_row = np.average(line, axis=0)
              avg_color = np.average(avg_color_per_row, axis=0)
              sum = avg_color[0]+avg_color[1]+avg_color[2]
+             print(sum)
              result_array = np.append(result_array, sum)
              y = y+1
          return result_array
@@ -165,7 +204,6 @@ class instruction(Screen):
              neg_array = np.append(neg_array, diff)
              index1=index1+1
          peaks, _ = find_peaks(neg_array, height=1)
-
          index2 = 0
          points_array = 0
          while(index2<len(peaks)):
@@ -187,12 +225,7 @@ class instruction(Screen):
          return conc
 
     def decode(batchid):
-         global qrval
-         global concarray
-         global peakarray
-         global assaytype
          global unit
-
          mainstr = int(batchid, 16)
          number = str(number)
          conc1 = int(number[0:1])
@@ -202,59 +235,67 @@ class instruction(Screen):
          conc3 = int(number[10:11])
          au3 = float(number[12:14])/100
          unit = "10^-"+number[15]+"mg/ml"
-
          x=np.array([conc1, conc2, conc3])
          y=np.array([au1, au2, au3])
-         m,b = np.polyfit(x, y, 1) #calculate the intercept and slope here
-         std_curve = [m,b]
-         return std_curve
+         m,b = np.polyfit(x, y, 1)
+         decoded = [m,b]
+         return decoded
 
-# =============================================================================
-    #error popups for assays which havent run well
     pass
 
 class resultcardtest(Screen):
-    print("resultcard")
+    def saveresults(self):
+            cursor.execute("INSERT INTO results (conc_result) VALUES (?)", (concentration))
+            conn.commit()
+            self.manager.current='modes'
+
+    def discardresults(self):
+            cursor.execute("""DELETE
+                       FROM results
+                       WHERE sample_id=?""",
+                    (sample_id))
+            conn.commit()
+            self.manager.current='modes'
     pass
 
 class instructionc(Screen):
-    print("calibrated")
-    def pkratio1():
-        global rndpr1
-        input_image = startcam()
-        roi = input_image[30:290, 375:425]
-        cv2.imwrite('/home/pi/view/cropped.jpg',roi)
-        results_array = mov_avgscan(roi)
-        peak_ratio1 = calc_ratio(results_array)
-        rndpr1 = float("{0:.2f}".format(peak_ratio1))
-        print(peak_ratio1)
-        pkr1L.configure(text=rndpr1)
-        return peak_ratio1
-
-    def gencode():
-        global qrstring
-        Assayid = AssayE.get()
-        Batchid = BatchE.get()
-        conc1 = int(Conc1E.get())
-        conc2 = int(Conc2E.get())
-        conc3 = int(Conc3E.get())
-        unit = int(UnitE.get())
-
-        str1 = int(conc1*1000+rndpr1*100)
-        str2 = int(conc2*1000+rndpr2*100)
-        str3 = int(conc3*1000+rndpr3*100)
-        strcode = unit+str3*10^2+str2*10^7+str3*10^12
-        batchcode = hex(strcode)
-
-        #make other functions global
     pass
 
 class enterconccard(Screen):
-    print("concentration")
+    global cal_conc=[]
+    global cal_au=[]
+    global batchid
+    def pkratio():
+        input_image = startcam()
+        roi = input_image[30:290, 375:425]
+        cv2.imwrite('/home/pi/view/roi.jpg',roi)
+        results_array = mov_avgscan(roi)
+        peak_ratio = calc_ratio(results_array)
+        rndpr = float("{0:.2f}".format(peak_ratio))
+        return rndpr
+
+    def read_testassay():
+        cal_conc = np.append(cal_conc, self.ids["new_concid"].text)
+        peak_ratio = pkratio()
+        cal_au = np.append(cal_au, peak_ratio)
+        self.ids["new_concid"].text = ""
+
+    def gencode():
+        [m,b] = np.polyfit(cal_conc, cal_au, 1)
+        batchid = str(m)+"/"+str(b)
+        print(batchid)
+        self.manager.current = 'newcode'
     pass
 
 class generatebatchcode(Screen):
-    print("generatedcode")
+    pass
+
+class resultview(Screen):
+    rows = ListProperty([("Sample_Id","Batch_Id","Test_type","Value","Unit")])
+    def get_data(self):
+        cursor.execute("SELECT (sample_id, batch_id, test_type, conc_result, unit) FROM results")
+        self.rows = cursor.fetchall()
+        print(self.rows)
     pass
 
 def PopUp(self, msg, title):
@@ -267,16 +308,19 @@ def PopUp(self, msg, title):
     popup.open()
 pass
 
-# =============================================================================
-# def shutdown():
-#     exitlayout =
-#     pop = Popup(title='Exit' ,
-#                   content = exitlayout, auto_dismiss=False
-#                   size_hint = (None, None), size=(400, 400))
-#
-#     pop.open()
-#
-# =============================================================================
+def shutdown():
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = "Do you want to shutdown the system?"))
+    btn1 = Button(text = "Yes")
+    btn1 = Button(text = "No")
+    box.add_widget(btn1)
+    box.add_widget(btn2)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
+    btn2.bind(on_press = popup.dismiss)
+    popup.open()
+pass
+
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
 sm.add_widget(mainsplash(name='splash'))
@@ -284,13 +328,14 @@ sm.add_widget(enteruserid(name='userid'))
 sm.add_widget(enterpassword(name='password'))
 sm.add_widget(choosemode(name='modes'))
 sm.add_widget(entersampleid(name='sampleid'))
+sm.add_widget(selecttype(name='testtype'))
 sm.add_widget(enterbatchcode(name='batchcode'))
 sm.add_widget(instruction(name='instruction'))
 sm.add_widget(resultcardtest(name='resultcard'))
-
 sm.add_widget(instructionc(name='instructionc'))
 sm.add_widget(enterconccard(name='concentration'))
 sm.add_widget(generatebatchcode(name='newcode'))
+sm.add_widget(resultview(name='history'))
 
 class MainApp(App):
     def build(self):
