@@ -101,11 +101,11 @@ class choosemode(Screen):
 
 class entersampleid(Screen):
     global sample_id
-    sample_id = self.ids["new_sampleid"].text
     title = "Existing SampleID"
     msg = "SampleID already exists. Please enter a different id"
 
     def verify_sampleid(self):
+        sample_id = self.ids["new_sampleid"].text
         cursor.execute("""SELECT sample_id
                    FROM results
                    WHERE sample_id=?""",
