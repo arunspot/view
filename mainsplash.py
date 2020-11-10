@@ -26,7 +26,7 @@ from kivy.uix.button import Button
 from kivy.config import Config
 from kivy.uix.popup import Popup
 from kivy.uix.dropdown import DropDown
-from datetime import date, time
+from datetime import date, time, datetime
 import sqlite3
 from subprocess import call
 from kivy.properties import ListProperty
