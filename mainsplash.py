@@ -245,10 +245,9 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
-    changelabels(self)
-    def changelabels(self):
-        self.sample_id.text = self.manager.get_screen('sampleid').sample_id
-        self.results.text = self.manager.get_screen('instruction').concentration
+
+    #self.sample_id.text = self.manager.get_screen('sampleid').sample_id
+    #self.results.text = self.manager.get_screen('instruction').concentration
     def saveresults(self):
             cursor.execute("INSERT INTO results (conc_result) VALUES (?)", (concentration))
             conn.commit()
