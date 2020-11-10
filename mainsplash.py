@@ -128,11 +128,11 @@ class enterbatchcode(Screen):
     today = date.today()
     datenow = today.strftime("%B %d, %Y")
     timenow = datetime.now()
-    batchid = self.ids["new_batchid"].text
     title = "Batchid Error"
     msg = "Error reading Batchid, please reenter"
     def read_batchid(self):
         try:
+            batchid = self.ids["new_batchid"].text
             std_curve = decode(batchid)
             cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, test_type, assay_type, unit) VALUES (?, ?, ?, ?, ?, ?, ?)", (sample_id, batchid, datenow, timenow, testtype, assaytype, unit))
             conn.commit()
