@@ -127,7 +127,7 @@ class enterbatchcode(Screen):
     global timenow
     today = date.today()
     datenow = today.strftime("%B %d, %Y")
-    timenow = datetime.now()
+    timenow = time.now()
     title = "Batchid Error"
     msg = "Error reading Batchid, please reenter"
     def read_batchid(self):
