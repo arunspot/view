@@ -30,6 +30,7 @@ from datetime import date
 from datetime import datetime
 import sqlite3
 from subprocess import call
+from kivy.properties import ListProperty
 
 #=============================================================================
 conn = sqlite3.connect('tests.db')
