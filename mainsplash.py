@@ -122,7 +122,7 @@ class entertesttype(Screen):
     pass
 
 class enterbatchcode(Screen):
-    global batchcode
+    global batchid
     global std_curve
     global datenow
     global timenow
@@ -245,6 +245,8 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
+    self.sample_id.text = str(sample_id)
+    self.results.text = str(concentration)
     def saveresults(self):
             cursor.execute("INSERT INTO results (conc_result) VALUES (?)", (concentration))
             conn.commit()

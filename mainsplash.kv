@@ -900,7 +900,9 @@
                 Label:
                     text: "SAMPLE ID:"
                 Label:
-                    text: entersampleid.sampleid
+                    id:sample_id
+                    text: ""
+                    markup:True
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
@@ -919,7 +921,9 @@
                     text: "VALUE:"
                     bold: True
                 Label:
-                    text: str(root.concentration)
+                    id: results
+                    text: ""
+                    markup: True
                     bold: True
             BoxLayout:
                 size_hint_y: 0.1
