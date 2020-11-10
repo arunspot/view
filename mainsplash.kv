@@ -892,7 +892,13 @@
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
-                    text: str(datetime.date.today())
+                    id: date
+                    text: ""
+                    markup: True
+                Label:
+                    id: time
+                    text: ""
+                    markup: True
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
