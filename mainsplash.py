@@ -245,7 +245,7 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
-    self.sample_id.text = str(sample_id)
+    self.sample_id.text = entersampleid.sampleid
     self.results.text = str(concentration)
     def saveresults(self):
             cursor.execute("INSERT INTO results (conc_result) VALUES (?)", (concentration))
