@@ -262,8 +262,8 @@ class instructionc(Screen):
     pass
 
 class enterconccard(Screen):
-    global cal_conc=[]
-    global cal_au=[]
+    global cal_conc
+    global cal_au
     global batchid
     def pkratio():
         input_image = startcam()
@@ -274,7 +274,7 @@ class enterconccard(Screen):
         rndpr = float("{0:.2f}".format(peak_ratio))
         return rndpr
 
-    def read_testassay():
+    def read_testassay(self):
         cal_conc = np.append(cal_conc, self.ids["new_concid"].text)
         peak_ratio = pkratio()
         cal_au = np.append(cal_au, peak_ratio)
