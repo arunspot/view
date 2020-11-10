@@ -892,9 +892,7 @@
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
-                    text: str(datetime.date.today())
-                Label:
-                    text: str(datetime.datetime.now())
+                    text: str(datetime.now())
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
@@ -1073,7 +1071,9 @@
                 Label:
                     text: "TIME:"
                 Label:
-                    text: str(datetime.date.now())
+                    text: str(datetime.date.today())
+                Label:
+                    text: str(datetime.datetime.now())
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
