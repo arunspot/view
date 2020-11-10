@@ -26,7 +26,7 @@ from kivy.uix.button import Button
 from kivy.config import Config
 from kivy.uix.popup import Popup
 from kivy.uix.dropdown import DropDown
-from datetime import date, time, datetime
+from datetime import date, datetime
 import sqlite3
 from subprocess import call
 from kivy.properties import ListProperty
@@ -126,8 +126,9 @@ class enterbatchcode(Screen):
     global datenow
     global timenow
     today = date.today()
+    now = datetime.now()
     datenow = today.strftime("%B %d, %Y")
-    timenow = datetime.now()
+    timenow = now.strftime("%H:%M:%S")
     title = "Batchid Error"
     msg = "Error reading Batchid, please reenter"
     def read_batchid(self):
