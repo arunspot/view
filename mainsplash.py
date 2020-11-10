@@ -246,10 +246,10 @@ class instruction(Screen):
 
 class resultcardtest(Screen):
 
-    self.ids["sample_id"].text = entersampleid.sample_id
-    self.ids["results"].text = instruction.concentration
-    self.ids["date"].text = enterbatchcode.datenow
-    self.ids["time"].text = enterbatchcode.timenow
+    #self.ids["sample_id"].text = entersampleid.sample_id
+    #self.ids["results"].text = instruction.concentration
+    #self.ids["date"].text = enterbatchcode.datenow
+    #self.ids["time"].text = enterbatchcode.timenow
     def saveresults(self):
             cursor.execute("INSERT INTO results (conc_result) VALUES (?)", (concentration))
             conn.commit()
