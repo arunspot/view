@@ -294,7 +294,7 @@ class MainApp(App):
     stdcurve = ListProperty([0,0])
     calibration_array = ListProperty([0,0])
 
-    def shutdown():
+    def shutdown(self):
         box = BoxLayout(orientation = 'vertical', padding = (10))
         box.add_widget(Label(text = "Do you want to shutdown the system?"))
         btn1 = Button(text = "Yes")
