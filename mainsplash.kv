@@ -37,7 +37,6 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
-
         BoxLayout:
             orientation: 'vertical'
             size_hint_y:0.4
@@ -46,10 +45,8 @@
                 id: new_userid
                 hint_text: "Enter UserID"
                 multiline: False
-                markup: True
                 text_size: self.size
                 halign: 'center'
-                valign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
@@ -918,7 +915,9 @@
                 Label:
                     text: "BATCH CODE:"
                 Label:
-                    text: "to be calculated"
+                    id: batchid
+                    text: ""
+                    markup: True
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
@@ -980,7 +979,6 @@
                 id: new_concid
                 hint_text: "Enter Concentration"
                 multiline: False
-                markup: True
                 text_size: self.size
                 halign: 'center'
                 font_size: 30
@@ -1072,20 +1070,23 @@
                 Label:
                     text: "BATCH CODE"
                     bold: True
+                Label:
+                    id: batchid
+                    text: ""
+                    bold: True
+                    markup: True
             BoxLayout:
                 size_hint_y: 0.1
                 Label:
                     text: "TIME:"
                 Label:
-                    text: str(datetime.date.today())
+                    id: date
+                    text: ""
+                    markup: True
                 Label:
-                    text: str(datetime.datetime.now())
-            BoxLayout:
-                size_hint_y: 0.1
-                Label:
-                    text: "BATCH CODE:"
-                Label:
-                    text: str(root.batchid)
+                    id: time
+                    text: ""
+                    markup: True
         BoxLayout:
             size_hint_y:0.1
             Button:
