@@ -298,7 +298,7 @@ class MainApp(App):
         box = BoxLayout(orientation = 'vertical', padding = (10))
         box.add_widget(Label(text = "Do you want to shutdown the system?"))
         btn1 = Button(text = "Yes")
-        btn1 = Button(text = "No")
+        btn2 = Button(text = "No")
         box.add_widget(btn1)
         box.add_widget(btn2)
         popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
