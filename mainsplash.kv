@@ -44,7 +44,7 @@
                 id: new_userid
                 hint_text: "Enter UserID"
                 multiline: False
-                halign: 'center'
+                valign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
@@ -217,7 +217,7 @@
             size_hint_y:0.1
             Button:
                 text: 'ShutDown'
-                on_press: root.shutdown()
+                on_press: root.close()
 
 <enterpassword>:
     BoxLayout:
@@ -237,8 +237,6 @@
                 password: True
                 hint_text: "Enter Password"
                 multiline: False
-                markup: True
-                text_size: self.size
                 halign: 'center'
         BoxLayout:
             id: keyboard
@@ -411,7 +409,7 @@
                 size_hint_y:0.1
                 Button:
                     text: 'ShutDown'
-                    on_press: root.shutdown()
+                    on_press: root.close()
 <choosemode>:
     BoxLayout:
         orientation: 'vertical'
@@ -451,7 +449,7 @@
             size_hint_y:0.1
             Button:
                 text: 'ShutDown'
-                on_press: root.shutdown()
+                on_press: root.close()
 
 <entersampleid>:
     BoxLayout:

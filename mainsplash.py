@@ -82,6 +82,9 @@ class enterpassword(Screen):
             self.manager.current='modes'
         else:
             PopUp(self,msg,title)
+    def close(self):
+        shutdown()
+
     pass
 
 class choosemode(Screen):
@@ -109,15 +112,15 @@ class entersampleid(Screen):
     pass
 
 class enterbatchcode(Screen):
-    title = "Batchid Error"
-    msg = "Error reading Batchid, please reenter"
     def read_batchid(self):
         try:
             self.batchid = self.ids["new_batchid"].text
             self.stdcurve = decode(self.batchid)
             self.manager.current='instruction'
         except:
-            Popup(self,msg,title)
+            title = "Batchid Error"
+            msg = "Error reading Batchid, please reenter"
+            Popup(self, msg , title)
     pass
 
 class instruction(Screen):
@@ -224,7 +227,7 @@ class instructionc(Screen):
     pass
 
 class enterconccard(Screen):
-    def pkratio():
+    def pkratio(self):
         input_image = startcam()
         roi = input_image[30:290, 375:425]
         cv2.imwrite('/home/pi/view/roi.jpg',roi)
@@ -245,7 +248,7 @@ class enterconccard(Screen):
             conc_array = conc_array.append(i[0])
             pr_array = pr_array.append(i[1])
         [m,b] = np.polyfit(conc_array, pr_array, 1)
-        batchid = str(m)+"/"+str(b)
+        batchid = str(m)+"#"+str(b)
         print(batchid)
         self.manager.current = 'newcode'
     pass
@@ -256,13 +259,13 @@ class generatebatchcode(Screen):
 class resultview(Screen):
     rows = ListProperty([("Sample_Id","Batch_Id","Test_type","Value","Unit")])
     def get_data(self):
-        cursor.execute("SELECT (sample_id, batch_id, test_type, conc_result, unit) FROM results")
+        cursor.execute("SELECT (sample_id, batchid, test_type, conc_result, unit) FROM results")
         self.rows = cursor.fetchall()
         print(self.rows)
     pass
 
 def decode(batchid):
-     decoded = batchid.split["/"]
+     decoded = batchid.split["#"]
      print(decoded, 'decoded')
      return decoded
 
@@ -284,9 +287,9 @@ def shutdown():
     btn2 = Button(text = "No")
     box.add_widget(btn1)
     box.add_widget(btn2)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
     btn2.bind(on_press = popup.dismiss)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
     pass
 
