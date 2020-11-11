@@ -56,6 +56,8 @@ conn.commit()
 camera = PiCamera()
 
 class mainsplash(Screen):
+    def close(self):
+        shutdown()
     pass
 
 class enteruserid(Screen):
