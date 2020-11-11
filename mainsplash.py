@@ -302,7 +302,8 @@ class MainApp(App):
         box.add_widget(btn1)
         box.add_widget(btn2)
         popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
-        btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
+        #btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
+        btn1.bind(on_press = print('popup')))
         btn2.bind(on_press = popup.dismiss)
         popup.open()
     pass
