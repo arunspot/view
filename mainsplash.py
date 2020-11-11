@@ -66,6 +66,10 @@ class enteruserid(Screen):
             self.manager.current='password'
         else:
             PopUp(self,msg,title)
+
+    def close(self):
+        shutdown()
+
     pass
 
 class enterpassword(Screen):
@@ -270,6 +274,20 @@ def PopUp(self, msg, title):
     popup.open()
 pass
 
+
+def shutdown():
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = "Do you want to shutdown the system?"))
+    btn1 = Button(text = "Yes")
+    btn2 = Button(text = "No")
+    box.add_widget(btn1)
+    box.add_widget(btn2)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
+    btn2.bind(on_press = popup.dismiss)
+    popup.open()
+    pass
+
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
 sm.add_widget(mainsplash(name='splash'))
@@ -293,20 +311,6 @@ class MainApp(App):
     peakratio = NumericProperty(1.0)
     stdcurve = ListProperty([0,0])
     calibration_array = ListProperty([0,0])
-
-    def shutdown(self):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = "Do you want to shutdown the system?"))
-        btn1 = Button(text = "Yes")
-        btn2 = Button(text = "No")
-        box.add_widget(btn1)
-        box.add_widget(btn2)
-        popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
-        #btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
-        btn1.bind(on_press = print('popup')))
-        btn2.bind(on_press = popup.dismiss)
-        popup.open()
-    pass
 
     def build(self):
         Window.size = (800, 500)
