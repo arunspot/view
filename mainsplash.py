@@ -83,7 +83,6 @@ def calc_ratio(result_array):
      index1 = 0
      diff = 0
      neg_array = 0
-
      while(index1<n):
          diff=dataNew[base]-dataNew[index1]
          neg_array = np.append(neg_array, diff)
@@ -174,7 +173,6 @@ class entersampleid(Screen):
             title = "Existing SampleID"
             msg = "SampleID already exists. Please enter a different id"
             Popup(self,msg,title)
-        return sample_id
 
     def close(self):
         shutdown(self)
@@ -199,12 +197,8 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
-    def __init__(self,**kwargs):
-        super(enterbatchid(), self).__init__(**kwargs)
-
     def camcapture(self):
-         batchval = enterbatchid()
-         batchid = batchval.decode_batchid()
+         batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
          print(batchid)
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
@@ -219,8 +213,6 @@ class instruction(Screen):
          input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
          roi = input_image[30:290, 405:460]
          cv2.imwrite('/home/pi/view/roi.jpg',roi)
-
-    def process(batchid):
          title = "Error reading test"
          msg = "Please ensure test has run properly"
          roi = cv2.imread('/home/pi/view/roi.jpg')
@@ -229,25 +221,22 @@ class instruction(Screen):
              peakratio = calc_ratio(results_array)
              concentration = int(calconc(peakratio, batchid))
              print("concentration calculated", concentration)
+             self.ids['conc_value'].text = str(concentration)
          except:
              Popup(self,msg,title)
-         return concentration
 
     def close(self):
         shutdown(self)
     pass
 
 class resultcardtest(Screen):
-    def __init__(self,**kwargs):
-        super(instruction(), self).__init__(**kwargs)
 
     def getresults(self):
         sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
         print('sample_id', sample_id)
         batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
         print('batch_id', batch_id)
-        result_value = instruction()
-        conc_result = result_value.process(batch_id)
+        conc_result = self.manager.get_screen('instruction').ids.conc_value.text
         print('conc', conc_result)
         datenow = today.strftime("%B %d, %Y")
         timenow = now.strftime("%H:%M:%S")

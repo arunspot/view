@@ -847,7 +847,8 @@
         BoxLayout:
             size_hint_y:0.1
             Button:
-                text: 'Start Test'
+                id = conc_value
+                text: 'Calculate Concentration'
                 on_press: root.camcapture()
                 on_release: root.manager.current = 'resultcard'
         BoxLayout:
