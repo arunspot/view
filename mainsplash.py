@@ -102,6 +102,16 @@ def shutdown(self):
     popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
 
+def PopUp(self,msg,title):
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = msg))
+    btn1 = Button(text = "Ok")
+    box.add_widget(btn1)
+    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+    btn1.bind(on_press = popup.dismiss)
+    popup.open()
+
+
 #==============================================================================
 camera = PiCamera()
 
@@ -111,15 +121,6 @@ class mainsplash(Screen):
     pass
 
 class enteruserid(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
     def verify_username(self):
         title = "Wrong UserId"
         msg = "Userid is incorrect for Deviceid: VIEAS2003"
@@ -133,15 +134,6 @@ class enteruserid(Screen):
     pass
 
 class enterpassword(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
     def verify_password(self):
         title = "Wrong Password"
         msg = "Password is incorrect for Deviceid: VIEAS2003"
@@ -158,15 +150,6 @@ class choosemode(Screen):
     pass
 
 class entersampleid(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
     def verify_sampleid(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
@@ -187,15 +170,6 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
     def decode_batchid(self):
         try:
             batch_id = self.ids["new_batchid"].text
@@ -213,15 +187,6 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
     def camcapture(self):
          batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
          print(batch_id)
@@ -257,16 +222,6 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
-    def PopUp(self,msg,title):
-        box = BoxLayout(orientation = 'vertical', padding = (10))
-        box.add_widget(Label(text = msg))
-        btn1 = Button(text = "Ok")
-        box.add_widget(btn1)
-        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-        btn1.bind(on_press = popup.dismiss)
-        popup.open()
-
-
     def getresults(self):
         sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
         print('sample_id', sample_id)
