@@ -238,10 +238,10 @@ class resultcardtest(Screen):
         print('batch_id', batch_id)
         conc_result = self.manager.get_screen('instruction').ids.conc_value.text
         print('conc', conc_result)
-        datenow = today.strftime("%B %d, %Y")
-        timenow = now.strftime("%H:%M:%S")
         today = date.today()
         now = datetime.now()
+        datenow = today.strftime("%B %d, %Y")
+        timenow = now.strftime("%H:%M:%S")
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
         self.ids["sample_id"].text = sample_id
