@@ -122,10 +122,7 @@ class entersampleid(Screen):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
         self.sample_id = self.ids["new_sampleid"].text
-        cursor.execute("""SELECT sample_id
-                   FROM results
-                   WHERE sample_id=?""",
-                (self.sample_id))
+        cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(self.sample_id,))
         check = cursor.fetchone()
         conn.close()
         if check == None:

@@ -420,18 +420,17 @@
                 pos: self.pos
 
         BoxLayout:
-            size_hint_y: 0.3
+            size_hint_y: 0.1
             Label:
                 text: ""
         BoxLayout:
             orientation: "horizontal"
-            size_hint_y: 0.3
+            size_hint_y: 0.7
             pos_hint:{'top':0.9}
             Label:
                 size_hint_y: None
-                size_hint_x: None
-                height: 150
-                width: 150
+                size_hint_x: 0.2
+                text: ""
             Button:
                 size_hint_y: None
                 size_hint_x: None
@@ -448,9 +447,12 @@
                 on_press: root.manager.current = 'history'
             Label:
                 size_hint_y: None
-                size_hint_x: None
-                height: 150
-                width: 150
+                size_hint_x: 0.2
+                text: ""
+        BoxLayout:
+            size_hint_y: 0.3
+            Label:
+                text: ""
         BoxLayout:
             size_hint_y:0.1
             Button:
