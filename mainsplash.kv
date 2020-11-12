@@ -31,12 +31,19 @@
 <enteruserid>:
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
         BoxLayout:
             size_hint_y:0.4
             TextInput:
                 id: new_userid
                 hint_text: "Enter UserID"
-                pos_hint:{'top':0.9}
+                pos_hint:{'top':0.7}
                 multiline: False
                 font_size: 30
         BoxLayout:
@@ -215,12 +222,20 @@
 <enterpassword>:
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
         BoxLayout:
             size_hint_y:0.4
             TextInput:
                 id: new_password
                 password: True
                 hint_text: "Enter Password"
+                pos_hint:{'top':0.7}
                 multiline: False
         BoxLayout:
             id: keyboard
@@ -397,6 +412,13 @@
 <choosemode>:
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
         BoxLayout:
             size_hint_y: 0.3
             Label:
@@ -428,13 +450,20 @@
 <entersampleid>:
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
         BoxLayout:
             size_hint_y:0.4
             TextInput:
                 id: new_sampleid
                 hint_text: "Enter Sample id"
+                pos_hint:{'top':0.7}
                 multiline: False
-                halign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
@@ -612,13 +641,20 @@
 <enterbatchid>:
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
         BoxLayout:
             size_hint_y:0.4
             TextInput:
                 id: new_batchid
                 hint_text: "Enter Batch id"
+                pos_hint:{'top':0.7}
                 multiline: False
-                halign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
