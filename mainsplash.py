@@ -51,6 +51,34 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          batch_id TEXT
          )""")
 conn.commit()
+#------------------------------------------------------------------------------
+
+#================================================================================
+def PopUp(self,msg,title):
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = msg))
+    btn1 = Button(text = "Ok")
+    box.add_widget(btn1)
+    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+    btn1.bind(on_press = popup.dismiss)
+    popup.open()
+pass
+
+
+def shutdown():
+    box = BoxLayout(orientation = 'vertical', padding = (10))
+    box.add_widget(Label(text = "Do you want to shutdown the system?"))
+    btn1 = Button(text = "Yes")
+    btn2 = Button(text = "No")
+    box.add_widget(btn1)
+    box.add_widget(btn2)
+    btn1.bind(on_press = os.system("shutdown now -h"))
+    btn2.bind(on_press = popup.dismiss)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+    popup.open()
+    pass
+
+#==============================================================================
 camera = PiCamera()
 
 class mainsplash(Screen):
@@ -62,7 +90,7 @@ class enteruserid(Screen):
     def verify_username(self):
         title = "Wrong UserId"
         msg = "Userid is incorrect for Deviceid: VIEAS2003"
-        if self.ids["new_userid"].text == "IDSB":
+        if self.ids["new_userid"].text == "IDS":
             self.manager.current='password'
         else:
             PopUp(self,msg,title)
@@ -79,6 +107,7 @@ class enterpassword(Screen):
             self.manager.current='modes'
         else:
             PopUp(self,msg,title)
+
     def close(self):
         shutdown()
     pass
@@ -96,10 +125,26 @@ class entersampleid(Screen):
                 (self.sample_id))
         check = cursor.fetchone()
         if check == None:
-            self.manager.current='testtype'
+            self.manager.current='batchid'
         else:
             title = "Existing SampleID"
             msg = "SampleID already exists. Please enter a different id"
+            Popup(self,msg,title)
+
+    def close(self):
+        shutdown()
+    pass
+
+class enterbatchid(Screen):
+    self.batch_id = self.ids["new_batchid"].text
+    def decode_batchid(self):
+        try:
+            x = self.batch_id.split("_")
+            self.intercept = int(x[0])/1000
+            self.slope = int(x[1])/1000
+        except:
+            title = "Invalid BatchID"
+            msg = "Please enter correct batch identification"
             Popup(self,msg,title)
     def close(self):
         shutdown()
@@ -114,12 +159,12 @@ class instruction(Screen):
              GPIO.output(40, True)
              GPIO.cleanup
              camera.start_preview()
-             time.sleep(3)
+             time.sleep(5)
              camera.capture('/home/pi/view/capturedimage.jpg')
              camera.stop_preview()
              GPIO.output(40,False)
              input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
-             roi = input_image[30:290, 375:425]
+             roi = input_image[30:290, 405:460]
              cv2.imwrite('/home/pi/view/roi.jpg',roi)
 
          except:
@@ -130,7 +175,7 @@ class instruction(Screen):
          try:
              results_array = mov_avgscan(roi)
              self.peakratio = calc_ratio(results_array)
-             self.concentration = calconc(self.peakratio, self.stdcurve)
+             self.concentration = calconc(self.peakratio)
          except:
              title = "Error reading test"
              msg = "Please ensure test has run properly"
@@ -178,20 +223,12 @@ class instruction(Screen):
          peak_ratio = points_array[n-1]/points_array[n]
          return peak_ratio
 
-    def calconc(peakratio, stdcurve):
-         slope = stdcurve[0]
-         print('slope', slope)
-         intercept = stdcurve[1]
-         print('intercept', intercept)
-         conc = slope*peakratio+intercept
-         print('concentration', conc)
-         if (conc<0):
-             conc = 0
+    def calconc(peakratio):
+         conc = self.slope*self.peakratio+self.intercept
          return conc
 
     def close(self):
         shutdown()
-
     pass
 
 class resultcardtest(Screen):
@@ -200,46 +237,29 @@ class resultcardtest(Screen):
     datenow = today.strftime("%B %d, %Y")
     timenow = now.strftime("%H:%M:%S")
     input_image = cv2.imread('/home/pi/view/roi.jpg')
+    def getresults(self):
+        self.ids.["date"].text = datenow
+        self.ids.["time"].text = timenow
+        self.ids.["sample_id"].text = self.sample_id
+        self.ids.["batchid"].text = self.batch_id
+        self.ids.["results"].text = self.concentration
     def saveresults(self):
-            cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_id, self.batchid, date, time, self.concentration, input_image))
-            conn.commit()
-            self.manager.current='modes'
-            print('concentrationdb', self.concentration)
+        cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_id, self.batch_id, datenow, timenow, self.concentration, input_image))
+        conn.commit()
+        self.manager.current='modes'
     def discardresults(self):
-            self.manager.current='modes'
+        self.manager.current='modes'
     pass
 
 class resultview(Screen):
-    rows = ListProperty([("Sample_Id","Batch_Id","Test_type","Value","Unit")])
+    rows = ListProperty([("Sample_Id","Batch_Id","Date","Time","Value")])
     def get_data(self):
-        cursor.execute("SELECT (sample_id, batchid, test_type, conc_result, unit) FROM results")
+        cursor.execute("SELECT (sample_id, batch_id, date, time, conc_result) FROM results")
         self.rows = cursor.fetchall()
         print(self.rows)
     pass
 
-def PopUp(self,msg,title):
-    box = BoxLayout(orientation = 'vertical', padding = (10))
-    box.add_widget(Label(text = msg))
-    btn1 = Button(text = "Ok")
-    box.add_widget(btn1)
-    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-    btn1.bind(on_press = popup.dismiss)
-    popup.open()
-pass
-
-
-def shutdown():
-    box = BoxLayout(orientation = 'vertical', padding = (10))
-    box.add_widget(Label(text = "Do you want to shutdown the system?"))
-    btn1 = Button(text = "Yes")
-    #btn2 = Button(text = "No")
-    box.add_widget(btn1)
-    #box.add_widget(btn2)
-    btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
-    #btn2.bind(on_press = popup.dismiss)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
-    popup.open()
-    pass
+conn.close()
 
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
@@ -248,17 +268,18 @@ sm.add_widget(enteruserid(name='userid'))
 sm.add_widget(enterpassword(name='password'))
 sm.add_widget(choosemode(name='modes'))
 sm.add_widget(entersampleid(name='sampleid'))
+sm.add_widget(entersampleid(name='batchid'))
 sm.add_widget(instruction(name='instruction'))
 sm.add_widget(resultcardtest(name='resultcard'))
 sm.add_widget(resultview(name='history'))
 
 class MainApp(App):
     sample_id = StringProperty('')
-    batchid = StringProperty('')
+    batch_id = StringProperty('')
     concentration = NumericProperty(1.0)
     peakratio = NumericProperty(1.0)
-    stdcurve = ListProperty([0,0])
-    calibration_array = ListProperty([0,0])
+    slope = NumericProperty(1.0)
+    intercept = NumericProperty(1.0)
 
     def build(self):
         Window.size = (800, 500)
