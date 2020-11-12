@@ -199,7 +199,7 @@ class enterbatchid(Screen):
 class instruction(Screen):
     def camcapture(self):
          batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
-         print(batchid)
+         print(batch_id)
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)
