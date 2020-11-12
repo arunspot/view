@@ -109,6 +109,8 @@ def calc_ratio(result_array):
 
 def calconc(peakratio, slope, intercept):
      conc = (peakratio-intercept)/slope
+     if (conc<0):
+         conc = 0
      return conc
 
 def shutdown():
