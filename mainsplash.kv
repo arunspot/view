@@ -856,15 +856,10 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'Update Results'
-                on_press: root.getresults()
-        BoxLayout:
-            size_hint_y: 0.8
+            size_hint_y: 0.9
             orientation: 'vertical'
             BoxLayout:
-                size_hint_y: 0.2
+                size_hint_y: 0.1
                 Label:
                     text: "RESULTS"
                     bold: True
@@ -921,8 +916,8 @@
         BoxLayout:
             size_hint_y:0.1
             Button:
-                text: 'ShutDown'
-                on_press: root.close()
+                text: 'Update Results'
+                on_press: root.getresults()
 
 <resultview>:
     BoxLayout:
