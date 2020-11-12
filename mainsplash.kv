@@ -233,10 +233,10 @@
             size_hint_y:0.4
             TextInput:
                 id: new_password
-                password: True
                 hint_text: "Enter Password"
                 pos_hint:{'top':0.7}
                 multiline: False
+                font_size: 30
         BoxLayout:
             id: keyboard
             size_hint_y:0.4
@@ -426,21 +426,31 @@
         BoxLayout:
             orientation: "horizontal"
             size_hint_y: 0.3
-            spacing: 50
+            spacing: 20
+            Label:
+                size_hint_y: None
+                size_hint_x: None
+                height: 150
+                width: 150
             Button:
                 size_hint_y: None
                 size_hint_x: None
-                height: 200
-                width: 200
+                height: 150
+                width: 150
                 background_normal: 'choosemode_test.png'
                 on_press: root.manager.current = 'sampleid'
             Button:
                 size_hint_y: None
                 size_hint_x: None
-                height: 200
-                width: 200
+                height: 150
+                width: 150
                 background_normal: 'choosemode_view.png'
                 on_press: root.manager.current = 'history'
+            Label:
+                size_hint_y: None
+                size_hint_x: None
+                height: 150
+                width: 150
         BoxLayout:
             size_hint_y:0.1
             Button:
@@ -631,7 +641,7 @@
                 KeyboardButton:
                     id:40
                     text: "->"
-                    on_press: root.manager.current = 'root.verify_sampleid()'
+                    on_press: root.verify_sampleid()
         BoxLayout:
             size_hint_y:0.1
             Button:
@@ -822,7 +832,7 @@
                 KeyboardButton:
                     id:40
                     text: "->"
-                    on_press: root.manager.current = 'instruction'
+                    on_press: root.decode_batchid()
         BoxLayout:
             size_hint_y:0.1
             Button:
