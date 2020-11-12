@@ -136,9 +136,9 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
-    self.batch_id = self.ids["new_batchid"].text
     def decode_batchid(self):
         try:
+            self.batch_id = self.ids["new_batchid"].text
             x = self.batch_id.split("_")
             self.intercept = int(x[0])/1000
             self.slope = int(x[1])/1000
@@ -232,12 +232,12 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
-    today = date.today()
-    now = datetime.now()
-    datenow = today.strftime("%B %d, %Y")
-    timenow = now.strftime("%H:%M:%S")
-    input_image = cv2.imread('/home/pi/view/roi.jpg')
     def getresults(self):
+        today = date.today()
+        now = datetime.now()
+        datenow = today.strftime("%B %d, %Y")
+        timenow = now.strftime("%H:%M:%S")
+        input_image = cv2.imread('/home/pi/view/roi.jpg')
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
         self.ids["sample_id"].text = self.sample_id
