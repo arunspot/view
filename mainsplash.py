@@ -18,7 +18,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.lang import Builder
 from random import random
-from kivy.uix.popup import Popup
+from kivy.uix.popup import Popu
 from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.uix.image import Image
@@ -50,8 +50,6 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          assay_type TEXT
          batch_id TEXT
          )""")
-         unit TEXT
-
 conn.commit()
 camera = PiCamera()
 
@@ -71,7 +69,6 @@ class enteruserid(Screen):
 
     def close(self):
         shutdown()
-
     pass
 
 class enterpassword(Screen):
@@ -84,20 +81,13 @@ class enterpassword(Screen):
             PopUp(self,msg,title)
     def close(self):
         shutdown()
-
     pass
 
 class choosemode(Screen):
     #make this centered for all buttons and use appropriate padding
     pass
 
-class entertesttype(Screen):
-    #write the dropdown logic for test type
-    pass
-
 class entersampleid(Screen):
-    title = "Existing SampleID"
-    msg = "SampleID already exists. Please enter a different id"
     def verify_sampleid(self):
         self.sample_id = self.ids["new_sampleid"].text
         cursor.execute("""SELECT sample_id
@@ -108,19 +98,11 @@ class entersampleid(Screen):
         if check == None:
             self.manager.current='testtype'
         else:
+            title = "Existing SampleID"
+            msg = "SampleID already exists. Please enter a different id"
             Popup(self,msg,title)
-    pass
-
-class enterbatchcode(Screen):
-    def read_batchid(self):
-        try:
-            self.batchid = self.ids["new_batchid"].text
-            self.stdcurve = decode(self.batchid)
-            self.manager.current='instruction'
-        except:
-            title = "Batchid Error"
-            msg = "Error reading Batchid, please reenter"
-            Popup(self,msg,title)
+    def close(self):
+        shutdown()
     pass
 
 class instruction(Screen):
@@ -206,6 +188,10 @@ class instruction(Screen):
          if (conc<0):
              conc = 0
          return conc
+
+    def close(self):
+        shutdown()
+
     pass
 
 class resultcardtest(Screen):
@@ -223,39 +209,6 @@ class resultcardtest(Screen):
             self.manager.current='modes'
     pass
 
-class instructionc(Screen):
-    pass
-
-class enterconccard(Screen):
-    def pkratio(self):
-        input_image = startcam()
-        roi = input_image[30:290, 375:425]
-        cv2.imwrite('/home/pi/view/roi.jpg',roi)
-        results_array = mov_avgscan(roi)
-        peak_ratio = calc_ratio(results_array)
-        rndpr = float("{0:.2f}".format(peak_ratio))
-        return rndpr
-
-    def read_testassay(self):
-        conc = self.ids["new_concid"].text
-        peak_ratio = pkratio()
-        self.calibration_array.append([conc, peak_ratio])
-        self.ids["new_concid"].text = ""
-
-    def gencode():
-        l=self.calibration_array
-        for i in l:
-            conc_array = conc_array.append(i[0])
-            pr_array = pr_array.append(i[1])
-        [m,b] = np.polyfit(conc_array, pr_array, 1)
-        batchid = str(m)+"#"+str(b)
-        print(batchid)
-        self.manager.current = 'newcode'
-    pass
-
-class generatebatchcode(Screen):
-    pass
-
 class resultview(Screen):
     rows = ListProperty([("Sample_Id","Batch_Id","Test_type","Value","Unit")])
     def get_data(self):
@@ -263,11 +216,6 @@ class resultview(Screen):
         self.rows = cursor.fetchall()
         print(self.rows)
     pass
-
-def decode(batchid):
-     decoded = batchid.split["#"]
-     print(decoded, 'decoded')
-     return decoded
 
 def PopUp(self,msg,title):
     box = BoxLayout(orientation = 'vertical', padding = (10))
@@ -284,12 +232,12 @@ def shutdown():
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = "Do you want to shutdown the system?"))
     btn1 = Button(text = "Yes")
-    btn2 = Button(text = "No")
+    #btn2 = Button(text = "No")
     box.add_widget(btn1)
-    box.add_widget(btn2)
+    #box.add_widget(btn2)
     btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
-    btn2.bind(on_press = popup.dismiss)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+    #btn2.bind(on_press = popup.dismiss)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
     pass
 
@@ -300,13 +248,8 @@ sm.add_widget(enteruserid(name='userid'))
 sm.add_widget(enterpassword(name='password'))
 sm.add_widget(choosemode(name='modes'))
 sm.add_widget(entersampleid(name='sampleid'))
-#sm.add_widget(entertesttype(name='testtype'))
-sm.add_widget(enterbatchcode(name='batchcode'))
 sm.add_widget(instruction(name='instruction'))
 sm.add_widget(resultcardtest(name='resultcard'))
-sm.add_widget(instructionc(name='instructionc'))
-sm.add_widget(enterconccard(name='concentration'))
-sm.add_widget(generatebatchcode(name='newcode'))
 sm.add_widget(resultview(name='history'))
 
 class MainApp(App):

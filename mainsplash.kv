@@ -26,7 +26,6 @@
     background_color: (0.06, 0.45, 0.45, 1)
     background_normal: ''
     bold: True
-    padding: 10
     font_size: 20
 
 <enteruserid>:
@@ -53,7 +52,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 1
+                spacing: 10
                 KeyboardButton:
                     id:1
                     text: "1"
@@ -245,7 +244,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 1
+                spacing: 10
                 KeyboardButton:
                     id:1
                     text: "1"
@@ -420,30 +419,26 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
-        GridLayout:
-            cols: 3
-            rows: 1
-            spacing: 10
-            size_hint_y: 0.8
+        BoxLayout:
+            size_hint_y: 0.3
+            Label:
+                text: ""
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: 0.3
+            spacing: 50
             Button:
                 size_hint_y: None
                 size_hint_x: None
-                height: 100
-                width: 100
+                height: 200
+                width: 200
                 background_normal: 'choosemode_test.png'
                 on_press: root.manager.current = 'sampleid'
             Button:
                 size_hint_y: None
                 size_hint_x: None
-                height: 100
-                width: 100
-                background_normal: 'choosemode_calibrate.png'
-                on_press: root.manager.current = 'instructionc'
-            Button:
-                size_hint_y: None
-                size_hint_x: None
-                height: 100
-                width: 100
+                height: 200
+                width: 200
                 background_normal: 'choosemode_view.png'
                 on_press: root.manager.current = 'history'
         BoxLayout:
@@ -462,13 +457,11 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            orientation: 'vertical'
             size_hint_y:0.4
             TextInput:
                 id: new_sampleid
                 hint_text: "Enter Sample id"
                 multiline: False
-                text_size: self.size
                 halign: 'center'
                 font_size: 30
         BoxLayout:
@@ -477,7 +470,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 1
+                spacing: 10
                 KeyboardButton:
                     id:1
                     text: "1"
@@ -644,203 +637,6 @@
                 text: 'ShutDown'
                 on_press: root.shutdown()
 
-#<entertesttype>:
-##------add dropdown and test type selection------##
-
-<enterbatchcode>:
-    BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Color:
-                rgba: (1, 1, 1, 1)
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint_y:0.4
-            TextInput:
-                id: new_batchid
-                hint_text: "Enter Batch Code"
-                multiline: False
-                markup: True
-                text_size: self.size
-                halign: 'center'
-                font_size: 30
-
-        BoxLayout:
-            id: keyboard
-            size_hint_y:0.4
-            GridLayout:
-                cols: 8
-                rows: 5
-                spacing: 1
-                KeyboardButton:
-                    id:1
-                    text: "1"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:2
-                    text: "2"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:3
-                    text: "3"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:4
-                    text: "4"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:5
-                    text: "5"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:6
-                    text: "6"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:7
-                    text: "7"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:8
-                    text: "8"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:9
-                    text: "9"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:10
-                    text: "0"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:11
-                    text: "A"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:12
-                    text: "B"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:13
-                    text: "C"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:14
-                    text: "D"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:15
-                    text: "E"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:16
-                    text: "F"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:17
-                    text: "G"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:18
-                    text: "H"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:19
-                    text: "I"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:20
-                    text: "J"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:21
-                    text: "K"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:22
-                    text: "L"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:23
-                    text: "M"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:24
-                    text: "N"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:25
-                    text: "O"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:26
-                    text: "P"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:27
-                    text: "Q"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:28
-                    text: "R"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:29
-                    text: "S"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:30
-                    text: "T"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:31
-                    text: "U"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:32
-                    text: "V"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:33
-                    text: "W"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:34
-                    text: "X"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:35
-                    text: "Y"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:36
-                    text: "Z"
-                    on_press: new_batchid.text += self.text
-                KeyboardButton:
-                    id:37
-                    text: "."
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:38
-                    text: "#"
-                    on_press: new_batchid.text+=self.text
-                KeyboardButton:
-                    id:39
-                    text: "<-"
-                    on_press: new_batchid.text = new_batchid.text[:-1]
-                KeyboardButton:
-                    id:40
-                    text: "->"
-                    on_press: root.read_batchid()
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.shutdown()
-
 <instruction>:
     BoxLayout:
         orientation: 'vertical'
@@ -913,7 +709,7 @@
                     text: "BATCH CODE:"
                 Label:
                     id: batchid
-                    text: ""
+                    text: "S052011704"
                     markup: True
             BoxLayout:
                 size_hint_y: 0.1
@@ -939,161 +735,6 @@
                 text: 'ShutDown'
                 on_press: root.shutdown()
 
-<instructionc>:
-    BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Color:
-                rgba: (1, 1, 1, 1)
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        BoxLayout:
-            size_hint_y: 0.8
-            Image:
-                source: 'calibration_instruction.png'
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'Start Test'
-                on_press: root.manager.current='concentration'
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.shutdown()
-
-<enterconccard>:
-    BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        BoxLayout:
-            size_hint_y:0.4
-            TextInput:
-                id: new_concid
-                hint_text: "Enter Concentration"
-                multiline: False
-                text_size: self.size
-                halign: 'center'
-                font_size: 30
-        BoxLayout:
-            id: keyboard
-            size_hint_y:0.4
-            GridLayout:
-                cols: 4
-                rows: 4
-                spacing: 1
-                KeyboardButton:
-                    id:1
-                    text: "1"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:2
-                    text: "2"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:3
-                    text: "3"
-                    on_press: new_concid.text += self.text
-                KeyboardButton:
-                    id:4
-                    text: "4"
-                    on_press: new_concid.text += self.text
-                KeyboardButton:
-                    id:5
-                    text: "5"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:6
-                    text: "6"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:7
-                    text: "7"
-                    on_press: new_concid.text += self.text
-                KeyboardButton:
-                    id:8
-                    text: "8"
-                    on_press: new_concid.text += self.text
-                KeyboardButton:
-                    id:9
-                    text: "9"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:10
-                    text: "0"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:37
-                    text: "."
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:38
-                    text: "#"
-                    on_press: new_concid.text+=self.text
-                KeyboardButton:
-                    id:39
-                    text: "<-"
-                    on_press: new_concid.text = new_concid.text[:-1]
-                KeyboardButton:
-                    id:40
-                    text: "Add"
-                    on_press: root.read_testassay()
-                KeyboardButton:
-                    id:41
-                    text: "Save"
-                    on_press: root.gencode()
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.shutdown()
-
-<generatebatchcode>:
-    BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        BoxLayout:
-            size_hint_y: 0.8
-            orientation: 'vertical'
-            BoxLayout:
-                size_hint_y: 0.2
-                Label:
-                    text: "BATCH CODE"
-                    bold: True
-                Label:
-                    id: batchid
-                    text: ""
-                    bold: True
-                    markup: True
-            BoxLayout:
-                size_hint_y: 0.1
-                Label:
-                    text: "TIME:"
-                Label:
-                    id: date
-                    text: ""
-                    markup: True
-                Label:
-                    id: time
-                    text: ""
-                    markup: True
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'Continue'
-                on_press: root.manager.current = 'modes'
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.shutdown()
 <resultview>:
     BoxLayout:
         orientation: 'vertical'
