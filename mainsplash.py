@@ -185,9 +185,9 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
-    slope = NumericProperty(1.0)
-    intercept = NumericProperty(1.0)
-    batch_id = StringProperty('')
+    self.slope = NumericProperty(1.0)
+    self.intercept = NumericProperty(1.0)
+    self.batch_id = StringProperty('')
     def decode_batchid(self):
         try:
             self.batch_id = self.ids["new_batchid"].text
@@ -233,8 +233,8 @@ class instruction(Screen):
              print("results array generated")
              peakratio = calc_ratio(results_array)
              print("peak ratio calculated")
-             conc_value = int(calconc(peakratio, slope1, intercept1))
-             print("concentration calculated", conc_value)
+             self.concentration = int(calconc(peakratio, slope1, intercept1))
+             print("concentration calculated", self.concentration)
 
          except:
              Popup(self,msg,title)
@@ -260,7 +260,7 @@ class resultcardtest(Screen):
         print(self.sample_value.sample_id)
         self.ids["batchid"].text = self.batch_value.batch_id
         print(self.batch_value.batch_id)
-        self.ids["results"].text = str(conc_value)
+        self.ids["results"].text = str(self.result_value.concentration)
     def saveresults(self):
         try:
             input_image = cv2.imread('/home/pi/view/roi.jpg')
