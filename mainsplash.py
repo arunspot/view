@@ -159,26 +159,20 @@ class enterbatchid(Screen):
 
 class instruction(Screen):
     def camcapture(self):
-         try:
-             GPIO.setwarnings(False)
-             GPIO.setmode(GPIO.BOARD)
-             GPIO.setup(40, GPIO.OUT)
-             GPIO.output(40, True)
-             GPIO.cleanup
-             camera.start_preview()
-             time.sleep(5)
-             camera.capture('/home/pi/view/capturedimage.jpg')
-             camera.stop_preview()
-             GPIO.output(40,False)
-             input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
-             roi = input_image[30:290, 405:460]
-             cv2.imwrite('/home/pi/view/roi.jpg',roi)
-             print("images saved")
-         except:
-             title = "Camera Error"
-             msg = "Error starting camera please call support"
-             Popup(self,msg,title)
-
+         GPIO.setwarnings(False)
+         GPIO.setmode(GPIO.BOARD)
+         GPIO.setup(40, GPIO.OUT)
+         GPIO.output(40, True)
+         GPIO.cleanup
+         camera.start_preview()
+         time.sleep(5)
+         camera.capture('/home/pi/view/capturedimage.jpg')
+         camera.stop_preview()
+         GPIO.output(40,False)
+         input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
+         roi = input_image[30:290, 405:460]
+         cv2.imwrite('/home/pi/view/roi.jpg',roi)
+         print("images saved")
          try:
              results_array = mov_avgscan(roi)
              print("results array generated")
