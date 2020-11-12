@@ -238,26 +238,26 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
-    sample_value = entersampleid()
-    sample_id = sample_value.verify_sampleid()
-    print('sample_id', sample_id)
-    batch_value = enterbatchid()
-    batch_id = batch_value.decode_batchid()
-    print('batch_id', batch_id)
-    result_value = instruction()
-    conc_result = result_value.process(batch_id)
-    print('conc', conc_result)
-    datenow = today.strftime("%B %d, %Y")
-    timenow = now.strftime("%H:%M:%S")
+    def __init__(self,**kwargs):
+        super(instruction, self).__init__(**kwargs)
 
     def getresults(self):
+        sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
+        print('sample_id', sample_id)
+        batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
+        print('batch_id', batch_id)
+        result_value = instruction()
+        conc_result = result_value.process(batch_id)
+        print('conc', conc_result)
+        datenow = today.strftime("%B %d, %Y")
+        timenow = now.strftime("%H:%M:%S")
         today = date.today()
         now = datetime.now()
-        self.ids["date"].text = self.datenow
-        self.ids["time"].text = self.timenow
-        self.ids["sample_id"].text = self.sample_id
-        self.ids["batchid"].text = self.batch_id
-        self.ids["results"].text = str(self.conc_result)
+        self.ids["date"].text = datenow
+        self.ids["time"].text = timenow
+        self.ids["sample_id"].text = sample_id
+        self.ids["batchid"].text = batch_id
+        self.ids["results"].text = str(conc_result)
 
     def saveresults(self):
         try:
