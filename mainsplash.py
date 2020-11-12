@@ -189,9 +189,9 @@ class enterbatchid(Screen):
             batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             self.intercept = int(x[0])/1000
-            print(intercept)
+            print(self.intercept)
             self.slope = int(x[1])/1000
-            print(slope)
+            print(self.slope)
             self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
