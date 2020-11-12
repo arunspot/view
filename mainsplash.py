@@ -246,21 +246,25 @@ class resultcardtest(Screen):
     sample_value = entersampleid()
     batch_value = enterbatchid()
     result_value = instruction()
+    datenow = StringProperty('')
+    timenow = StringProperty('')
     def getresults(self):
         today = date.today()
         now = datetime.now()
-        datenow = today.strftime("%B %d, %Y")
-        timenow = now.strftime("%H:%M:%S")
+        self.datenow = today.strftime("%B %d, %Y")
+        self.timenow = now.strftime("%H:%M:%S")
         input_image = cv2.imread('/home/pi/view/roi.jpg')
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
         self.ids["sample_id"].text = self.sample_value.sample_id
+        print(self.sample_value.sample_id)
         self.ids["batchid"].text = self.batch_value.batch_id
+        print(self.batch_value.batch_id)
         self.ids["results"].text = str(self.result_value.concentration)
     def saveresults(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_value.sample_id, self.batch_value.batch_id, datenow, timenow, self.result_value.concentration, input_image))
+        cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_value.sample_id, self.batch_value.batch_id, self.datenow, self.timenow, self.result_value.concentration, input_image))
         conn.commit()
         conn.close()
         self.manager.current='modes'
