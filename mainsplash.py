@@ -63,21 +63,65 @@ def PopUp(self,msg,title):
     popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
     btn1.bind(on_press = popup.dismiss)
     popup.open()
-pass
 
+
+def mov_avgscan(final_image):
+     input=final_image
+     [a, b] = input.shape[:2]
+     result_array = 0
+     x = 1
+     y = 1
+     sum = 0
+     while (y<(a-3)):
+         line = input[y:y+3, x:x+b]
+         avg_color_per_row = np.average(line, axis=0)
+         avg_color = np.average(avg_color_per_row, axis=0)
+         sum = avg_color[0]+avg_color[1]+avg_color[2]
+         print(sum)
+         result_array = np.append(result_array, sum)
+         y = y+1
+     return result_array
+
+def calc_ratio(result_array):
+     dataNew=result_array[1:-1]
+     n = len(dataNew)
+     base = round(n/2)
+     index1 = 0
+     diff = 0
+     neg_array = 0
+
+     while(index1<n):
+         diff=dataNew[base]-dataNew[index1]
+         neg_array = np.append(neg_array, diff)
+         index1=index1+1
+     peaks, _ = find_peaks(neg_array, height=1)
+     index2 = 0
+     points_array = 0
+     while(index2<len(peaks)):
+         point =  peaks[index2]
+         points_array = np.append(points_array, neg_array[point])
+         index2=index2+1
+     points_array.sort()
+     n = len(points_array)-1
+     print(points_array[n], points_array[n-1])
+     peak_ratio = points_array[n-1]/points_array[n]
+     return peak_ratio
+
+def calconc(peakratio):
+     conc = self.slope*self.peakratio+self.intercept
+     return conc
 
 def shutdown():
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = "Do you want to shutdown the system?"))
     btn1 = Button(text = "Yes")
-    #btn2 = Button(text = "No")
+    btn2 = Button(text = "No")
     box.add_widget(btn1)
     box.add_widget(btn2)
     btn1.bind(on_press = os.system("shutdown now -h"))
-    #btn2.bind(on_press = popup.dismiss)
+    btn2.bind(on_press = popup.dismiss)
     popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
-    pass
 
 #==============================================================================
 camera = PiCamera()
@@ -141,13 +185,9 @@ class enterbatchid(Screen):
     def decode_batchid(self):
         try:
             self.batch_id = self.ids["new_batchid"].text
-            print(self.batch_id)
             x = self.batch_id.split("_")
-            print(x)
             self.intercept = int(x[0])/1000
-            print(self.intercept)
             self.slope = int(x[1])/1000
-            print(self.slope)
             self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
@@ -158,53 +198,6 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
-    def mov_avgscan(final_image):
-         input=final_image
-         [a, b] = input.shape[:2]
-         result_array = 0
-         x = 1
-         y = 1
-         sum = 0
-         while (y<(a-3)):
-             line = input[y:y+3, x:x+b]
-             avg_color_per_row = np.average(line, axis=0)
-             avg_color = np.average(avg_color_per_row, axis=0)
-             sum = avg_color[0]+avg_color[1]+avg_color[2]
-             print(sum)
-             result_array = np.append(result_array, sum)
-             y = y+1
-         return result_array
-
-    def calc_ratio(result_array):
-         dataNew=result_array[1:-1]
-         n = len(dataNew)
-         base = round(n/2)
-         index1 = 0
-         diff = 0
-         neg_array = 0
-
-         while(index1<n):
-             diff=dataNew[base]-dataNew[index1]
-             neg_array = np.append(neg_array, diff)
-             index1=index1+1
-         peaks, _ = find_peaks(neg_array, height=1)
-         index2 = 0
-         points_array = 0
-         while(index2<len(peaks)):
-             point =  peaks[index2]
-             points_array = np.append(points_array, neg_array[point])
-             index2=index2+1
-         points_array.sort()
-         n = len(points_array)-1
-         print(points_array[n], points_array[n-1])
-         peak_ratio = points_array[n-1]/points_array[n]
-         return peak_ratio
-
-    def calconc(peakratio):
-         conc = self.slope*self.peakratio+self.intercept
-         return conc
-
-
     def camcapture(self):
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
@@ -220,6 +213,9 @@ class instruction(Screen):
          roi = input_image[30:290, 405:460]
          cv2.imwrite('/home/pi/view/roi.jpg',roi)
          print("images saved")
+         title = "Error reading test"
+         msg = "Please ensure test has run properly"
+
          try:
              results_array = mov_avgscan(roi)
              print("results array generated")
@@ -227,9 +223,8 @@ class instruction(Screen):
              print("peak ratio calculated")
              self.concentration = calconc(self.peakratio)
              print("concentration calculated")
+
          except:
-             title = "Error reading test"
-             msg = "Please ensure test has run properly"
              Popup(self,msg,title)
 
     def close(self):
