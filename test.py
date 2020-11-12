@@ -13,6 +13,8 @@ from scipy.signal import find_peaks
 
 camera = PiCamera()
 
+camcapture()
+
 def camcapture():
      try:
          GPIO.setwarnings(False)
@@ -36,6 +38,7 @@ def camcapture():
      try:
          results_array = mov_avgscan(roi)
          peakratio = calc_ratio(results_array)
+         print('peakratio', peakratio)
          concentration = calconc(peakratio, stdcurve)
      except:
          title = "Error reading test"
@@ -82,14 +85,3 @@ def calc_ratio(result_array):
      print(points_array[n], points_array[n-1])
      peak_ratio = points_array[n-1]/points_array[n]
      return peak_ratio
-
-def calconc(peakratio, stdcurve):
-     slope = stdcurve[0]
-     print('slope', slope)
-     intercept = stdcurve[1]
-     print('intercept', intercept)
-     conc = slope*peakratio+intercept
-     print('concentration', conc)
-     if (conc<0):
-         conc = 0
-     return conc
