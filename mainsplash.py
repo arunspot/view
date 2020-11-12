@@ -183,7 +183,7 @@ class entersampleid(Screen):
 class enterbatchid(Screen):
     def decode_batchid(self):
         try:
-        batch_id = self.ids["new_batchid"].text
+            batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             intercept = int(x[0])/1000
             slope = int(x[1])/1000
