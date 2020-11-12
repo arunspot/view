@@ -125,7 +125,9 @@ class entersampleid(Screen):
         cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(self.sample_id,))
         check = cursor.fetchone()
         conn.close()
+        self.manager.current='batchid'
         if check == None:
+            print('no sampleids found')
             self.manager.current='batchid'
         else:
             title = "Existing SampleID"
