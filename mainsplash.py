@@ -241,11 +241,11 @@ class resultcardtest(Screen):
 
     def saveresults(self):
         input_image = cv2.imread('/home/pi/view/roi.jpg')
-        conn = sqlite3.connect('tests.db')
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO results (sample_id,batch_id,date,time,conc_result,test_image) VALUES (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image)")
-        conn.commit()
-        conn.close()
+        #conn = sqlite3.connect('tests.db')
+        #cursor = conn.cursor()
+        #cursor.execute("INSERT INTO results (sample_id,batch_id,date,time,conc_result,test_image) VALUES (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image)")
+        #conn.commit()
+        #conn.close()
         self.manager.current='modes'
 
     def discardresults(self):
