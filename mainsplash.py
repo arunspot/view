@@ -200,7 +200,7 @@ class enterbatchid(Screen):
 
 class instruction(Screen):
     def __init__(self,**kwargs):
-        super(enterbatchid, self).__init__(**kwargs)
+        super(enterbatchid(), self).__init__(**kwargs)
 
     def camcapture(self):
          batchval = enterbatchid()
@@ -239,7 +239,7 @@ class instruction(Screen):
 
 class resultcardtest(Screen):
     def __init__(self,**kwargs):
-        super(instruction, self).__init__(**kwargs)
+        super(instruction(), self).__init__(**kwargs)
 
     def getresults(self):
         sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
