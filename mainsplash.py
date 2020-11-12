@@ -238,11 +238,11 @@ class resultcardtest(Screen):
     timenow = now.strftime("%H:%M:%S")
     input_image = cv2.imread('/home/pi/view/roi.jpg')
     def getresults(self):
-        self.ids.["date"].text = datenow
-        self.ids.["time"].text = timenow
-        self.ids.["sample_id"].text = self.sample_id
-        self.ids.["batchid"].text = self.batch_id
-        self.ids.["results"].text = self.concentration
+        self.ids["date"].text = datenow
+        self.ids["time"].text = timenow
+        self.ids["sample_id"].text = self.sample_id
+        self.ids["batchid"].text = self.batch_id
+        self.ids["results"].text = self.concentration
     def saveresults(self):
         cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_id, self.batch_id, datenow, timenow, self.concentration, input_image))
         conn.commit()
