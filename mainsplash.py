@@ -182,16 +182,16 @@ class entersampleid(Screen):
 
 class enterbatchid(Screen):
     def decode_batchid(self):
-    #    try:
+        try:
         batch_id = self.ids["new_batchid"].text
-    ##        x = batch_id.split("_")
-    #        intercept = int(x[0])/1000
-    #        slope = int(x[1])/1000
-    #        self.manager.current = 'instruction'
-    #    except:
-    #        title = "Invalid BatchID"
-    #        msg = "Please enter correct batch identification"
-    #        Popup(msg,title)
+            x = batch_id.split("_")
+            intercept = int(x[0])/1000
+            slope = int(x[1])/1000
+            self.manager.current = 'instruction'
+        except:
+            title = "Invalid BatchID"
+            msg = "Please enter correct batch identification"
+            Popup(self,msg,title)
         return batch_id
 
     def close(self):
@@ -199,10 +199,13 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
-    batchval = enterbatchid()
-    batchid = batchval.decode_batchid()
-    print(batchid)
+    def __init__(self,**kwargs):
+        super(enterbatchid, self).__init__(**kwargs)
+
     def camcapture(self):
+         batchval = enterbatchid()
+         batchid = batchval.decode_batchid()
+         print(batchid)
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)
