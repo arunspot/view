@@ -254,8 +254,8 @@ class resultcardtest(Screen):
         self.datenow = today.strftime("%B %d, %Y")
         self.timenow = now.strftime("%H:%M:%S")
         input_image = cv2.imread('/home/pi/view/roi.jpg')
-        self.ids["date"].text = datenow
-        self.ids["time"].text = timenow
+        self.ids["date"].text = self.datenow
+        self.ids["time"].text = self.timenow
         self.ids["sample_id"].text = self.sample_value.sample_id
         print(self.sample_value.sample_id)
         self.ids["batchid"].text = self.batch_value.batch_id
