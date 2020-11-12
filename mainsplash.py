@@ -182,16 +182,16 @@ class entersampleid(Screen):
 
 class enterbatchid(Screen):
     def decode_batchid(self):
-        try:
-            batch_id = self.ids["new_batchid"].text
-            x = batch_id.split("_")
-            intercept = int(x[0])/1000
-            slope = int(x[1])/1000
-            self.manager.current = 'instruction'
-        except:
-            title = "Invalid BatchID"
-            msg = "Please enter correct batch identification"
-            Popup(msg,title)
+    #    try:
+        batch_id = self.ids["new_batchid"].text
+    ##        x = batch_id.split("_")
+    #        intercept = int(x[0])/1000
+    #        slope = int(x[1])/1000
+    #        self.manager.current = 'instruction'
+    #    except:
+    #        title = "Invalid BatchID"
+    #        msg = "Please enter correct batch identification"
+    #        Popup(msg,title)
         return batch_id
 
     def close(self):
