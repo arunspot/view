@@ -40,16 +40,6 @@ conn.close()
 #------------------------------------------------------------------------------
 
 #================================================================================
-def PopUp(self,msg,title):
-    box = BoxLayout(orientation = 'vertical', padding = (10))
-    box.add_widget(Label(text = msg))
-    btn1 = Button(text = "Ok")
-    box.add_widget(btn1)
-    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
-    btn1.bind(on_press = popup.dismiss)
-    popup.open()
-
-
 def mov_avgscan(final_image):
      input=final_image
      [a, b] = input.shape[:2]
@@ -121,6 +111,15 @@ class mainsplash(Screen):
     pass
 
 class enteruserid(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
     def verify_username(self):
         title = "Wrong UserId"
         msg = "Userid is incorrect for Deviceid: VIEAS2003"
@@ -134,6 +133,15 @@ class enteruserid(Screen):
     pass
 
 class enterpassword(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
     def verify_password(self):
         title = "Wrong Password"
         msg = "Password is incorrect for Deviceid: VIEAS2003"
@@ -150,6 +158,15 @@ class choosemode(Screen):
     pass
 
 class entersampleid(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
     def verify_sampleid(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
@@ -170,6 +187,15 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
     def decode_batchid(self):
         try:
             batch_id = self.ids["new_batchid"].text
@@ -181,13 +207,21 @@ class enterbatchid(Screen):
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
             Popup(self,msg,title)
-        return batch_id
 
     def close(self):
         shutdown(self)
     pass
 
 class instruction(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
     def camcapture(self):
          batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
          print(batch_id)
@@ -214,6 +248,8 @@ class instruction(Screen):
              print("concentration calculated", concentration)
              self.ids['conc_value'].text = str(concentration)
          except:
+             title = "Unable to read value"
+             msg = "Please reinsert the assay"
              Popup(self,msg,title)
 
     def close(self):
@@ -221,6 +257,15 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
+    def PopUp(self,msg,title):
+        box = BoxLayout(orientation = 'vertical', padding = (10))
+        box.add_widget(Label(text = msg))
+        btn1 = Button(text = "Ok")
+        box.add_widget(btn1)
+        popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+        btn1.bind(on_press = popup.dismiss)
+        popup.open()
+
 
     def getresults(self):
         sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
@@ -249,7 +294,10 @@ class resultcardtest(Screen):
             conn.close()
             self.manager.current='modes'
         except:
-            self.manager.current='modes'
+             title = "Unable to save values"
+             msg = "Please reinsert the assay"
+             Popup(self,msg,title)
+             self.manager.current='modes'
     def discardresults(self):
         self.manager.current='modes'
     pass
@@ -257,12 +305,17 @@ class resultcardtest(Screen):
 class resultview(Screen):
     rows = ListProperty([("Sample_Id","Batch_Id","Date","Time","Value")])
     def get_data(self):
-        conn = sqlite3.connect('tests.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT (sample_id,batch_id,date,time,conc_result) FROM results")
-        self.rows = cursor.fetchall()
-        conn.close()
-        print(self.rows)
+        try:
+            conn = sqlite3.connect('tests.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT sample_id,batch_id,date,time,conc_result FROM results")
+            self.rows = cursor.fetchall()
+            conn.close()
+            print(self.rows)
+        except:
+             title = "Unable to fetch history"
+             msg = "Please ensure the device is connected"
+             Popup(self,msg,title)
     pass
 
 kv = Builder.load_file("mainsplash.kv")
