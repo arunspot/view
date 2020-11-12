@@ -108,7 +108,7 @@ def calc_ratio(result_array):
      return peak_ratio
 
 def calconc(peakratio, slope, intercept):
-     conc = slope*peakratio+intercept
+     conc = (peakratio-intercept)/slope
      return conc
 
 def shutdown():
@@ -229,7 +229,7 @@ class instruction(Screen):
              print("results array generated")
              peakratio = calc_ratio(results_array)
              print("peak ratio calculated")
-             self.concentration = calconc(peakratio, slope1, intercept1)
+             self.concentration = int(calconc(peakratio, slope1, intercept1))
              print("concentration calculated", self.concentration)
 
          except:
