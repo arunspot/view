@@ -173,16 +173,19 @@ class instruction(Screen):
              input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
              roi = input_image[30:290, 405:460]
              cv2.imwrite('/home/pi/view/roi.jpg',roi)
-
+             print("images saved")
          except:
              title = "Camera Error"
-             msg = "Error starting camera, please call support"
+             msg = "Error starting camera please call support"
              Popup(self,msg,title)
 
          try:
              results_array = mov_avgscan(roi)
+             print("results array generated")
              self.peakratio = calc_ratio(results_array)
+             print("peak ratio calculated")
              self.concentration = calconc(self.peakratio)
+             print("concentration calculated")
          except:
              title = "Error reading test"
              msg = "Please ensure test has run properly"
