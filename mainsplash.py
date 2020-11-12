@@ -31,6 +31,7 @@ import sqlite3
 from subprocess import call
 from kivy.properties import ListProperty
 
+global conc_value
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
@@ -232,8 +233,8 @@ class instruction(Screen):
              print("results array generated")
              peakratio = calc_ratio(results_array)
              print("peak ratio calculated")
-             self.concentration = int(calconc(peakratio, slope1, intercept1))
-             print("concentration calculated", self.concentration)
+             conc_value = int(calconc(peakratio, slope1, intercept1))
+             print("concentration calculated", conc_value)
 
          except:
              Popup(self,msg,title)
@@ -259,7 +260,7 @@ class resultcardtest(Screen):
         print(self.sample_value.sample_id)
         self.ids["batchid"].text = self.batch_value.batch_id
         print(self.batch_value.batch_id)
-        self.ids["results"].text = str(self.result_value.concentration)
+        self.ids["results"].text = str(conc_value)
     def saveresults(self):
         try:
             input_image = cv2.imread('/home/pi/view/roi.jpg')
