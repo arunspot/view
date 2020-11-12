@@ -31,7 +31,6 @@ import sqlite3
 from subprocess import call
 from kivy.properties import ListProperty
 
-global conc_value
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
@@ -45,12 +44,6 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS results (
      )
      """)
 
-##maybe the calibrations table is not required
-cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
-         test_type TEXT
-         assay_type TEXT
-         batch_id TEXT
-         )""")
 conn.commit()
 conn.close()
 #------------------------------------------------------------------------------
@@ -108,13 +101,16 @@ def calc_ratio(result_array):
      peak_ratio = points_array[n-1]/points_array[n]
      return peak_ratio
 
-def calconc(peakratio, slope, intercept):
-     conc = (peakratio-intercept)/slope
-     if (conc<0):
-         conc = 0
-     return conc
+def calconc(peakratio, batch_id):
+    x = batch_id.split("_")
+    intercept = int(x[0])/1000
+    slope = int(x[1])/1000
+    conc = (peakratio-intercept)/slope
+    if (conc<0):
+        conc = 0
+    return conc
 
-def shutdown():
+def shutdown(self):
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = "Do you want to shutdown the system?"))
     btn1 = Button(text = "Yes")
@@ -131,7 +127,7 @@ camera = PiCamera()
 
 class mainsplash(Screen):
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class enteruserid(Screen):
@@ -144,7 +140,7 @@ class enteruserid(Screen):
             PopUp(self,msg,title)
 
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class enterpassword(Screen):
@@ -157,20 +153,18 @@ class enterpassword(Screen):
             PopUp(self,msg,title)
 
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class choosemode(Screen):
     pass
 
 class entersampleid(Screen):
-    def __init__(self, **kwargs):
-        self.sample_id = StringProperty('')
     def verify_sampleid(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        self.sample_id = self.ids["new_sampleid"].text
-        cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(self.sample_id,))
+        sample_id = self.ids["new_sampleid"].text
+        cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(sample_id,))
         check = cursor.fetchone()
         conn.close()
         if check == None:
@@ -180,37 +174,34 @@ class entersampleid(Screen):
             title = "Existing SampleID"
             msg = "SampleID already exists. Please enter a different id"
             Popup(self,msg,title)
+        return sample_id
 
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class enterbatchid(Screen):
-    def __init__(self, **kwargs):
-        self.slope = NumericProperty(1.0)
-        self.intercept = NumericProperty(1.0)
-        self.batch_id = StringProperty('')
     def decode_batchid(self):
         try:
-            self.batch_id = self.ids["new_batchid"].text
-            x = self.batch_id.split("_")
-            self.intercept = int(x[0])/1000
-            print(self.intercept)
-            self.slope = int(x[1])/1000
-            print(self.slope)
+            batch_id = self.ids["new_batchid"].text
+            x = batch_id.split("_")
+            intercept = int(x[0])/1000
+            slope = int(x[1])/1000
             self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
             Popup(self,msg,title)
+        return batch_id
+
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class instruction(Screen):
     batchval = enterbatchid()
-    def __init__(self, **kwargs):
-        self.concentration = NumericProperty(1.0)
+    batchid = batchval.decode_batchid()
+    print(batchid)
     def camcapture(self):
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
@@ -225,52 +216,52 @@ class instruction(Screen):
          input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
          roi = input_image[30:290, 405:460]
          cv2.imwrite('/home/pi/view/roi.jpg',roi)
-         print("images saved")
+
+    def process(batchid):
          title = "Error reading test"
          msg = "Please ensure test has run properly"
-         slope1 = self.batchval.slope
-         intercept1 = self.batchval.intercept
-         print(slope1,intercept1)
+         roi = cv2.imread('/home/pi/view/roi.jpg')
          try:
              results_array = mov_avgscan(roi)
-             print("results array generated")
              peakratio = calc_ratio(results_array)
-             print("peak ratio calculated")
-             self.concentration = int(calconc(peakratio, slope1, intercept1))
-             print("concentration calculated", self.concentration)
-
+             concentration = int(calconc(peakratio, batchid))
+             print("concentration calculated", concentration)
          except:
              Popup(self,msg,title)
+         return concentration
 
     def close(self):
-        shutdown()
+        shutdown(self)
     pass
 
 class resultcardtest(Screen):
     sample_value = entersampleid()
+    sample_id = sample_value.verify_sampleid()
+    print('sample_id', sample_id)
     batch_value = enterbatchid()
+    batch_id = batch_value.decode_batchid()
+    print('batch_id', batch_id)
     result_value = instruction()
-    def __init__(self, **kwargs):
-        datenow = StringProperty('')
-        timenow = StringProperty('')
+    conc_result = result_value.process(batch_id)
+    print('conc', conc_result)
+    datenow = today.strftime("%B %d, %Y")
+    timenow = now.strftime("%H:%M:%S")
+
     def getresults(self):
         today = date.today()
         now = datetime.now()
-        self.datenow = today.strftime("%B %d, %Y")
-        self.timenow = now.strftime("%H:%M:%S")
         self.ids["date"].text = self.datenow
         self.ids["time"].text = self.timenow
-        self.ids["sample_id"].text = self.sample_value.sample_id
-        print(self.sample_value.sample_id)
-        self.ids["batchid"].text = self.batch_value.batch_id
-        print(self.batch_value.batch_id)
-        self.ids["results"].text = str(self.result_value.concentration)
+        self.ids["sample_id"].text = self.sample_id
+        self.ids["batchid"].text = self.batch_id
+        self.ids["results"].text = str(self.conc_result)
+
     def saveresults(self):
         try:
             input_image = cv2.imread('/home/pi/view/roi.jpg')
             conn = sqlite3.connect('tests.db')
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?,?,?,?,?,?)", (self.sample_value.sample_id, self.batch_value.batch_id, self.datenow, self.timenow, self.result_value.concentration, input_image))
+            cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?,?,?,?,?,?)", (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image))
             conn.commit()
             conn.close()
             self.manager.current='modes'
