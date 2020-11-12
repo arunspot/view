@@ -219,7 +219,7 @@ class instruction(Screen):
          try:
              results_array = mov_avgscan(roi)
              peakratio = calc_ratio(results_array)
-             concentration = int(calconc(peakratio, batchid))
+             concentration = int(calconc(peakratio, batch_id))
              print("concentration calculated", concentration)
              self.ids['conc_value'].text = str(concentration)
          except:
