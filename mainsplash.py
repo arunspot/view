@@ -253,7 +253,7 @@ class resultcardtest(Screen):
             input_image = cv2.imread('/home/pi/view/roi.jpg')
             conn = sqlite3.connect('tests.db')
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?,?,?,?,?,?)", (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image))
+            cursor.execute("INSERT INTO results (sample_id,batch_id,date,time,conc_result,test_image) VALUES (?,?,?,?,?,?)", (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image))
             conn.commit()
             conn.close()
             self.manager.current='modes'
@@ -268,7 +268,7 @@ class resultview(Screen):
     def get_data(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT (sample_id, batch_id, date, time, conc_result) FROM results")
+        cursor.execute("SELECT (sample_id,batch_id,date,time,conc_result) FROM results")
         self.rows = cursor.fetchall()
         conn.close()
         print(self.rows)
