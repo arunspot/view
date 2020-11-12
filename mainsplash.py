@@ -51,6 +51,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          batch_id TEXT
          )""")
 conn.commit()
+conn.close()
 #------------------------------------------------------------------------------
 
 #================================================================================
@@ -118,12 +119,15 @@ class choosemode(Screen):
 
 class entersampleid(Screen):
     def verify_sampleid(self):
+        conn = sqlite3.connect('tests.db')
+        cursor = conn.cursor()
         self.sample_id = self.ids["new_sampleid"].text
         cursor.execute("""SELECT sample_id
                    FROM results
                    WHERE sample_id=?""",
                 (self.sample_id))
         check = cursor.fetchone()
+        conn.close()
         if check == None:
             self.manager.current='batchid'
         else:
@@ -244,8 +248,11 @@ class resultcardtest(Screen):
         self.ids["batchid"].text = self.batch_id
         self.ids["results"].text = self.concentration
     def saveresults(self):
+        conn = sqlite3.connect('tests.db')
+        cursor = conn.cursor()
         cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_id, self.batch_id, datenow, timenow, self.concentration, input_image))
         conn.commit()
+        conn.close()
         self.manager.current='modes'
     def discardresults(self):
         self.manager.current='modes'
@@ -254,12 +261,13 @@ class resultcardtest(Screen):
 class resultview(Screen):
     rows = ListProperty([("Sample_Id","Batch_Id","Date","Time","Value")])
     def get_data(self):
+        conn = sqlite3.connect('tests.db')
+        cursor = conn.cursor()
         cursor.execute("SELECT (sample_id, batch_id, date, time, conc_result) FROM results")
         self.rows = cursor.fetchall()
+        conn.close()
         print(self.rows)
     pass
-
-conn.close()
 
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
