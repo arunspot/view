@@ -34,16 +34,7 @@ from kivy.properties import ListProperty
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS results (
-         sample_id TEXT
-         batch_id TEXT
-         date TEXT
-         time TEXT
-         conc_result REAL
-         test_image BLOB
-     )
-     """)
-
+cursor.execute("CREATE TABLE IF NOT EXISTS results (sample_id TEXT, batch_id TEXT, date TEXT, time TEXT, conc_result REAL, test_image BLOB)")
 conn.commit()
 conn.close()
 #------------------------------------------------------------------------------
