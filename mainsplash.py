@@ -316,7 +316,7 @@ class resultview(Screen):
              title = "Unable to fetch history"
              msg = "Please ensure the device is connected"
              Popup(self,msg,title)
-
+    pass
 
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
