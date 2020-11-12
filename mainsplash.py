@@ -69,12 +69,12 @@ def shutdown():
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = "Do you want to shutdown the system?"))
     btn1 = Button(text = "Yes")
-    btn2 = Button(text = "No")
+    #btn2 = Button(text = "No")
     box.add_widget(btn1)
     box.add_widget(btn2)
     btn1.bind(on_press = os.system("shutdown now -h"))
-    btn2.bind(on_press = popup.dismiss)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = False)
+    #btn2.bind(on_press = popup.dismiss)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
     pass
 
