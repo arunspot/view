@@ -38,13 +38,11 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            orientation: 'vertical'
             size_hint_y:0.4
             TextInput:
                 id: new_userid
                 hint_text: "Enter UserID"
                 multiline: False
-                halign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
@@ -52,7 +50,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 10
+                spacing: 2
                 KeyboardButton:
                     id:1
                     text: "1"
@@ -244,7 +242,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 10
+                spacing: 2
                 KeyboardButton:
                     id:1
                     text: "1"
@@ -470,7 +468,7 @@
             GridLayout:
                 cols: 8
                 rows: 5
-                spacing: 10
+                spacing: 2
                 KeyboardButton:
                     id:1
                     text: "1"
