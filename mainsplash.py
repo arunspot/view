@@ -141,9 +141,14 @@ class enterbatchid(Screen):
     def decode_batchid(self):
         try:
             self.batch_id = self.ids["new_batchid"].text
+            print(self.batch_id)
             x = self.batch_id.split("_")
+            print(x)
             self.intercept = int(x[0])/1000
+            print(self.intercept)
             self.slope = int(x[1])/1000
+            print(self.slope)
+            self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
