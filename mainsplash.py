@@ -164,7 +164,8 @@ class choosemode(Screen):
     pass
 
 class entersampleid(Screen):
-    sample_id = StringProperty('')
+    def__init__(self):
+        self.sample_id = StringProperty('')
     def verify_sampleid(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
@@ -185,9 +186,10 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
-    self.slope = NumericProperty(1.0)
-    self.intercept = NumericProperty(1.0)
-    self.batch_id = StringProperty('')
+    def__init__(self):
+        self.slope = NumericProperty(1.0)
+        self.intercept = NumericProperty(1.0)
+        self.batch_id = StringProperty('')
     def decode_batchid(self):
         try:
             self.batch_id = self.ids["new_batchid"].text
@@ -207,7 +209,8 @@ class enterbatchid(Screen):
 
 class instruction(Screen):
     batchval = enterbatchid()
-    concentration = NumericProperty(1.0)
+    def__init__(self):
+        self.concentration = NumericProperty(1.0)
     def camcapture(self):
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
@@ -247,8 +250,9 @@ class resultcardtest(Screen):
     sample_value = entersampleid()
     batch_value = enterbatchid()
     result_value = instruction()
-    datenow = StringProperty('')
-    timenow = StringProperty('')
+    def__init__(self):
+        datenow = StringProperty('')
+        timenow = StringProperty('')
     def getresults(self):
         today = date.today()
         now = datetime.now()
