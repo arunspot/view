@@ -186,10 +186,11 @@ class entersampleid(Screen):
 class enterbatchid(Screen):
     slope = NumericProperty(1.0)
     intercept = NumericProperty(1.0)
+    batch_id = StringProperty('')
     def decode_batchid(self):
         try:
-            batch_id = self.ids["new_batchid"].text
-            x = batch_id.split("_")
+            self.batch_id = self.ids["new_batchid"].text
+            x = self.batch_id.split("_")
             self.intercept = int(x[0])/1000
             print(self.intercept)
             self.slope = int(x[1])/1000
