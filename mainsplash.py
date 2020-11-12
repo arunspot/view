@@ -107,8 +107,8 @@ def calc_ratio(result_array):
      peak_ratio = points_array[n-1]/points_array[n]
      return peak_ratio
 
-def calconc(peakratio):
-     conc = self.slope*self.peakratio+self.intercept
+def calconc(peakratio, slope, intercept):
+     conc = slope*peakratio+intercept
      return conc
 
 def shutdown():
@@ -158,10 +158,10 @@ class enterpassword(Screen):
     pass
 
 class choosemode(Screen):
-    #make this centered for all buttons and use appropriate padding
     pass
 
 class entersampleid(Screen):
+    sample_id = StringProperty('')
     def verify_sampleid(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
@@ -182,12 +182,16 @@ class entersampleid(Screen):
     pass
 
 class enterbatchid(Screen):
+    slope = NumericProperty(1.0)
+    intercept = NumericProperty(1.0)
     def decode_batchid(self):
         try:
-            self.batch_id = self.ids["new_batchid"].text
-            x = self.batch_id.split("_")
+            batch_id = self.ids["new_batchid"].text
+            x = batch_id.split("_")
             self.intercept = int(x[0])/1000
+            print(intercept)
             self.slope = int(x[1])/1000
+            print(slope)
             self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
@@ -198,6 +202,8 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
+    batchval = enterbatchid()
+    concentration = NumericProperty(1.0)
     def camcapture(self):
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
@@ -215,14 +221,16 @@ class instruction(Screen):
          print("images saved")
          title = "Error reading test"
          msg = "Please ensure test has run properly"
-
+         slope1 = self.batchval.slope
+         intercept1 = self.batchval.intercept
+         print(slope1,intercept1)
          try:
              results_array = mov_avgscan(roi)
              print("results array generated")
-             self.peakratio = calc_ratio(results_array)
+             peakratio = calc_ratio(results_array)
              print("peak ratio calculated")
-             self.concentration = calconc(self.peakratio)
-             print("concentration calculated")
+             self.concentration = calconc(peakratio, slope1, intercept1)
+             print("concentration calculated", self.concentration)
 
          except:
              Popup(self,msg,title)
@@ -232,6 +240,9 @@ class instruction(Screen):
     pass
 
 class resultcardtest(Screen):
+    sample_value = entersampleid()
+    batch_value = enterbatchid()
+    result_value = instruction()
     def getresults(self):
         today = date.today()
         now = datetime.now()
@@ -240,13 +251,13 @@ class resultcardtest(Screen):
         input_image = cv2.imread('/home/pi/view/roi.jpg')
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
-        self.ids["sample_id"].text = self.sample_id
-        self.ids["batchid"].text = self.batch_id
-        self.ids["results"].text = self.concentration
+        self.ids["sample_id"].text = self.sample_value.sample_id
+        self.ids["batchid"].text = self.batch_value.batch_id
+        self.ids["results"].text = self.result_value.concentration
     def saveresults(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_id, self.batch_id, datenow, timenow, self.concentration, input_image))
+        cursor.execute("INSERT INTO results (sample_id, batch_id, date, time, conc_result, test_image) VALUES (?)", (self.sample_value.sample_id, self.batch_value.batch_id, datenow, timenow, self.result_value.concentration, input_image))
         conn.commit()
         conn.close()
         self.manager.current='modes'
@@ -278,13 +289,6 @@ sm.add_widget(resultcardtest(name='resultcard'))
 sm.add_widget(resultview(name='history'))
 
 class MainApp(App):
-    sample_id = StringProperty('')
-    batch_id = StringProperty('')
-    concentration = NumericProperty(1.0)
-    peakratio = NumericProperty(1.0)
-    slope = NumericProperty(1.0)
-    intercept = NumericProperty(1.0)
-
     def build(self):
         Window.size = (800, 500)
         return sm
