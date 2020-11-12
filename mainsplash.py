@@ -256,7 +256,7 @@ class resultcardtest(Screen):
         self.ids["time"].text = timenow
         self.ids["sample_id"].text = self.sample_value.sample_id
         self.ids["batchid"].text = self.batch_value.batch_id
-        self.ids["results"].text = self.result_value.concentration
+        self.ids["results"].text = str(self.result_value.concentration)
     def saveresults(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
