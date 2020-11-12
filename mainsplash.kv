@@ -26,6 +26,7 @@
     background_color: (0.06, 0.45, 0.45, 1)
     background_normal: ''
     bold: True
+    padding: 10
     font_size: 20
 
 <enteruserid>:
@@ -44,7 +45,7 @@
                 id: new_userid
                 hint_text: "Enter UserID"
                 multiline: False
-                valign: 'center'
+                halign: 'center'
                 font_size: 30
         BoxLayout:
             id: keyboard
@@ -405,11 +406,11 @@
                     id:40
                     text: "->"
                     on_press: root.verify_password()
-            BoxLayout:
-                size_hint_y:0.1
-                Button:
-                    text: 'ShutDown'
-                    on_press: root.close()
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.close()
 <choosemode>:
     BoxLayout:
         orientation: 'vertical'
@@ -932,11 +933,11 @@
                 Button:
                     text: "Discard"
                     on_press: root.discardresults()
-            BoxLayout:
-                size_hint_y:0.1
-                Button:
-                    text: 'ShutDown'
-                    on_press: root.shutdown()
+        BoxLayout:
+            size_hint_y:0.1
+            Button:
+                text: 'ShutDown'
+                on_press: root.shutdown()
 
 <instructionc>:
     BoxLayout:

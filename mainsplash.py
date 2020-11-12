@@ -49,8 +49,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS calibrations (
          test_type TEXT
          assay_type TEXT
          batch_id TEXT
+         )""")
          unit TEXT
- )""")
 
 conn.commit()
 camera = PiCamera()
@@ -120,7 +120,7 @@ class enterbatchcode(Screen):
         except:
             title = "Batchid Error"
             msg = "Error reading Batchid, please reenter"
-            Popup(self, msg , title)
+            Popup(self,msg,title)
     pass
 
 class instruction(Screen):
@@ -269,12 +269,12 @@ def decode(batchid):
      print(decoded, 'decoded')
      return decoded
 
-def PopUp(self, msg, title):
+def PopUp(self,msg,title):
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = msg))
     btn1 = Button(text = "Ok")
     box.add_widget(btn1)
-    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    popup = Popup(title=title, content = box,size_hint=(None, None), size=(430, 200), auto_dismiss = False)
     btn1.bind(on_press = popup.dismiss)
     popup.open()
 pass
@@ -289,7 +289,7 @@ def shutdown():
     box.add_widget(btn2)
     btn1.bind(on_press = call("sudo nohup shutdown -h now", shell=True))
     btn2.bind(on_press = popup.dismiss)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = False)
     popup.open()
     pass
 
