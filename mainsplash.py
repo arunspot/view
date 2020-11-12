@@ -191,7 +191,7 @@ class enterbatchid(Screen):
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
-            Popup(self,msg,title)
+            Popup(msg,title)
         return batch_id
 
     def close(self):
