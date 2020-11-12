@@ -18,7 +18,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.lang import Builder
 from random import random
-from kivy.uix.popup import Popu
+from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.uix.image import Image
