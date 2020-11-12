@@ -125,7 +125,6 @@ class entersampleid(Screen):
         cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(self.sample_id,))
         check = cursor.fetchone()
         conn.close()
-        self.manager.current='batchid'
         if check == None:
             print('no sampleids found')
             self.manager.current='batchid'
@@ -275,7 +274,7 @@ sm.add_widget(enteruserid(name='userid'))
 sm.add_widget(enterpassword(name='password'))
 sm.add_widget(choosemode(name='modes'))
 sm.add_widget(entersampleid(name='sampleid'))
-sm.add_widget(entersampleid(name='batchid'))
+sm.add_widget(enterbatchid(name='batchid'))
 sm.add_widget(instruction(name='instruction'))
 sm.add_widget(resultcardtest(name='resultcard'))
 sm.add_widget(resultview(name='history'))

@@ -27,6 +27,7 @@
     background_normal: ''
     bold: True
     font_size: 20
+    padding:[10,10,10,10]
 
 <enteruserid>:
     BoxLayout:
@@ -199,7 +200,7 @@
                     on_press: new_userid.text += self.text
                 KeyboardButton:
                     id:37
-                    text: "."
+                    text: "-"
                     on_press: new_userid.text+=self.text
                 KeyboardButton:
                     id:38
@@ -211,13 +212,8 @@
                     on_press: new_userid.text = new_userid.text[:-1]
                 KeyboardButton:
                     id:40
-                    text: "->"
+                    text: "Ent"
                     on_press: root.verify_username()
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.close()
 
 <enterpassword>:
     BoxLayout:
@@ -390,7 +386,7 @@
                     on_press: new_password.text += self.text
                 KeyboardButton:
                     id:37
-                    text: "."
+                    text: "-"
                     on_press: new_password.text+=self.text
                 KeyboardButton:
                     id:38
@@ -402,13 +398,8 @@
                     on_press: new_password.text = new_password.text[:-1]
                 KeyboardButton:
                     id:40
-                    text: "->"
+                    text: "Ent"
                     on_press: root.verify_password()
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.close()
 <choosemode>:
     BoxLayout:
         orientation: 'vertical'
@@ -585,7 +576,7 @@
                     text: "O"
                     on_press: new_sampleid.text+=self.text
                 KeyboardButton:
-                    id:26
+                    id:2
                     text: "P"
                     on_press: new_sampleid.text+=self.text
                 KeyboardButton:
@@ -630,7 +621,7 @@
                     on_press: new_sampleid.text += self.text
                 KeyboardButton:
                     id:37
-                    text: "."
+                    text: "-"
                     on_press: new_sampleid.text+=self.text
                 KeyboardButton:
                     id:38
@@ -642,7 +633,7 @@
                     on_press: new_sampleid.text = new_sampleid.text[:-1]
                 KeyboardButton:
                     id:40
-                    text: "->"
+                    text: "Ent"
                     on_press: root.verify_sampleid()
         BoxLayout:
             size_hint_y:0.1
@@ -821,7 +812,7 @@
                     on_press: new_batchid.text += self.text
                 KeyboardButton:
                     id:37
-                    text: "."
+                    text: "-"
                     on_press: new_batchid.text+=self.text
                 KeyboardButton:
                     id:38
@@ -833,14 +824,8 @@
                     on_press: new_batchid.text = new_batchid.text[:-1]
                 KeyboardButton:
                     id:40
-                    text: "->"
+                    text: "Ent"
                     on_press: root.decode_batchid()
-        BoxLayout:
-            size_hint_y:0.1
-            Button:
-                text: 'ShutDown'
-                on_press: root.close()
-
 
 <instruction>:
     BoxLayout:
