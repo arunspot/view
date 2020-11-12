@@ -158,33 +158,6 @@ class enterbatchid(Screen):
     pass
 
 class instruction(Screen):
-    def camcapture(self):
-         GPIO.setwarnings(False)
-         GPIO.setmode(GPIO.BOARD)
-         GPIO.setup(40, GPIO.OUT)
-         GPIO.output(40, True)
-         GPIO.cleanup
-         camera.start_preview()
-         time.sleep(5)
-         camera.capture('/home/pi/view/capturedimage.jpg')
-         camera.stop_preview()
-         GPIO.output(40,False)
-         input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
-         roi = input_image[30:290, 405:460]
-         cv2.imwrite('/home/pi/view/roi.jpg',roi)
-         print("images saved")
-         try:
-             results_array = mov_avgscan(roi)
-             print("results array generated")
-             self.peakratio = calc_ratio(results_array)
-             print("peak ratio calculated")
-             self.concentration = calconc(self.peakratio)
-             print("concentration calculated")
-         except:
-             title = "Error reading test"
-             msg = "Please ensure test has run properly"
-             Popup(self,msg,title)
-
     def mov_avgscan(final_image):
          input=final_image
          [a, b] = input.shape[:2]
@@ -230,6 +203,34 @@ class instruction(Screen):
     def calconc(peakratio):
          conc = self.slope*self.peakratio+self.intercept
          return conc
+
+
+    def camcapture(self):
+         GPIO.setwarnings(False)
+         GPIO.setmode(GPIO.BOARD)
+         GPIO.setup(40, GPIO.OUT)
+         GPIO.output(40, True)
+         GPIO.cleanup
+         camera.start_preview()
+         time.sleep(5)
+         camera.capture('/home/pi/view/capturedimage.jpg')
+         camera.stop_preview()
+         GPIO.output(40,False)
+         input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
+         roi = input_image[30:290, 405:460]
+         cv2.imwrite('/home/pi/view/roi.jpg',roi)
+         print("images saved")
+         try:
+             results_array = mov_avgscan(roi)
+             print("results array generated")
+             self.peakratio = calc_ratio(results_array)
+             print("peak ratio calculated")
+             self.concentration = calconc(self.peakratio)
+             print("concentration calculated")
+         except:
+             title = "Error reading test"
+             msg = "Please ensure test has run properly"
+             Popup(self,msg,title)
 
     def close(self):
         shutdown()
