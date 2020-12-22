@@ -68,12 +68,12 @@ def calc_ratio(result_array):
          diff=dataNew[base]-dataNew[index1]
          neg_array = np.append(neg_array, diff)
          index1=index1+1
-     peaks, _ = find_peaks(neg_array, height=1)
+     peaks, _ = find_peaks(result_array, height=1)
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
          point =  peaks[index2]
-         points_array = np.append(points_array, neg_array[point])
+         points_array = np.append(points_array, result_array[point])
          index2=index2+1
      points_array.sort()
      n = len(points_array)-1
@@ -209,9 +209,9 @@ class instruction(Screen):
          try:
              results_array = mov_avgscan(roi)
              peakratio = calc_ratio(results_array)
-             concentration = int(calconc(peakratio, batch_id))
-             print("concentration calculated", concentration)
-             self.ids['conc_value'].text = str(concentration)
+             #concentration = int(calconc(peakratio, batch_id))
+             #print("concentration calculated", concentration)
+             #self.ids['conc_value'].text = str(concentration)
          except:
              title = "Unable to read value"
              msg = "Please reinsert the assay"
@@ -223,11 +223,11 @@ class instruction(Screen):
 
 class resultcardtest(Screen):
     def getresults(self):
-        sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
-        print('sample_id', sample_id)
-        batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
-        print('batch_id', batch_id)
-        conc_result = self.manager.get_screen('instruction').ids.conc_value.text
+        #sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
+        #print('sample_id', sample_id)
+        #batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
+        #print('batch_id', batch_id)
+        conc_result = self.manager.get_screen('instruction').ids.peakratio.text
         print('conc', conc_result)
         today = date.today()
         now = datetime.now()
@@ -235,8 +235,8 @@ class resultcardtest(Screen):
         timenow = now.strftime("%H:%M:%S")
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
-        self.ids["sample_id"].text = sample_id
-        self.ids["batchid"].text = batch_id
+        #self.ids["sample_id"].text = sample_id
+        #self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
 
     def saveresults(self):

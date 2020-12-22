@@ -15,7 +15,7 @@
             size_hint_y:0.1
             Button:
                 text: 'Continue'
-                on_press: root.manager.current = 'userid'
+                on_press: root.manager.current = 'instruction'
         BoxLayout:
             size_hint_y:0.1
             Button:
@@ -825,48 +825,18 @@
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: (0.06, 0.45, 0.45, 1)
+                rgba: (1, 1, 1, 1)
             Rectangle:
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y: 0.1
-            Label:
-                text: ""
-        BoxLayout:
-            size_hint_y: 0.2
-            Label:
-                text: "READING THE ASSAY"
-                pos_hint: {'top':0.7}
-                bold: True
-        BoxLayout:
-            orientation: 'vertical'
             size_hint_y: 0.8
-            Label:
-                text:'  Collect the saliva on assay by placing it in patient mouth below tongue'
-                text_size: self.size
-                halign: 'left'
-                font_size: 20
-            Label:
-                text:'  Else take saliva and add on assay using the dropper provided'
-                text_size: self.size
-                halign: 'left'
-                font_size: 20
-            Label:
-                text:'  Place the assay in tray once color has developed'
-                text_size: self.size
-                halign: 'left'
-                font_size: 20
-            Label:
-                text:'  Click start test to get the concentration'
-                text_size: self.size
-                halign: 'left'
-                font_size: 20
+            Image:
+                source: 'instruction.png'
         BoxLayout:
             size_hint_y:0.1
             Button:
-                id: conc_value
-                text: 'Calculate Concentration'
+                text: 'Continue'
                 on_press: root.camcapture()
                 on_release: root.manager.current = 'resultcard'
         BoxLayout:
