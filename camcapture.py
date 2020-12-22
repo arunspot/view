@@ -25,6 +25,7 @@ def mov_avgscan(final_image):
          avg_color = np.average(avg_color_per_row, axis=0)
          sum = avg_color[0]+avg_color[1]+avg_color[2]
          result_array = np.append(result_array, sum)
+         print(result_array)
          y = y+3
      return result_array
 
@@ -40,6 +41,7 @@ def calc_ratio(result_array):
          neg_array = np.append(neg_array, diff)
          index1=index1+1
      peaks, _ = find_peaks(neg_array, height=1)
+     #peaks, _ = find_peaks(result_array, height=1) #why is the height argument used
      print("peaks", peaks)
      index2 = 0
      points_array = 0
@@ -69,11 +71,5 @@ input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
 roi = input_image[170:630, 350:390]
 cv2.imwrite('/home/pi/view/roi.jpg',roi)
 roi = cv2.imread('/home/pi/view/roi.jpg')
-try:
-    results_array = mov_avgscan(roi)
-    peakratio = calc_ratio(results_array)
-except:
-    title = "Unable to read value"
-    msg = "Please reinsert the assay"
-    Popup(self,msg,title)
-
+results_array = mov_avgscan(roi)
+peakratio = calc_ratio(results_array)

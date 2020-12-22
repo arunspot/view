@@ -48,7 +48,7 @@ def mov_avgscan(final_image):
      y = 1
      sum = 0
      while (y<(a-3)):
-         line = input[y:y+3, x:x+b]
+         line = input[y:y+5, x:x+b]
          avg_color_per_row = np.average(line, axis=0)
          avg_color = np.average(avg_color_per_row, axis=0)
          sum = avg_color[0]+avg_color[1]+avg_color[2]
@@ -84,7 +84,7 @@ def calc_ratio(result_array):
 def calconc(peakratio, batch_id):
     x = batch_id.split("_")
     intercept = int(x[0])/1000
-    slope = int(x[1])/1000
+    slope = int(x[1])/10000
     conc = (peakratio-intercept)/slope
     if (conc<0):
         conc = 0
@@ -123,8 +123,8 @@ class mainsplash(Screen):
 class enteruserid(Screen):
     def verify_username(self):
         title = "Wrong UserId"
-        msg = "Userid is incorrect for Deviceid: VIEAS2003"
-        if self.ids["new_userid"].text == "IDS":
+        msg = "Userid is incorrect for Deviceid: VIEAS2001"
+        if self.ids["new_userid"].text == "FHU":
             self.manager.current='password'
         else:
             PopUp(self,msg,title)
@@ -136,8 +136,8 @@ class enteruserid(Screen):
 class enterpassword(Screen):
     def verify_password(self):
         title = "Wrong Password"
-        msg = "Password is incorrect for Deviceid: VIEAS2003"
-        if self.ids["new_password"].text == "IDS2897":
+        msg = "Password is incorrect for Deviceid: VIEAS2001"
+        if self.ids["new_password"].text == "FFH2389":
             self.manager.current='modes'
         else:
             PopUp(self,msg,title)
@@ -175,7 +175,7 @@ class enterbatchid(Screen):
             batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             intercept = int(x[0])/1000
-            slope = int(x[1])/1000
+            slope = int(x[1])/10000
             self.manager.current = 'instruction'
         except:
             title = "Invalid BatchID"
@@ -201,7 +201,7 @@ class instruction(Screen):
          camera.stop_preview()
          GPIO.output(40,False)
          input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
-         roi = input_image[30:290, 405:460]
+         roi = input_image[170:630, 350:390]
          cv2.imwrite('/home/pi/view/roi.jpg',roi)
          title = "Error reading test"
          msg = "Please ensure test has run properly"
