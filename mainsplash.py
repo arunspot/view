@@ -287,4 +287,4 @@ class MainApp(App):
 
 if __name__=="__main__":
     sa = MainApp()
-    sa.run()
+    sa.r
