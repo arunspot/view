@@ -18,6 +18,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.lang import Builder
 from random import random
+import matplotlib.pyplot as plt
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.core.window import Window
@@ -52,9 +53,9 @@ def mov_avgscan(final_image):
          avg_color_per_row = np.average(line, axis=0)
          avg_color = np.average(avg_color_per_row, axis=0)
          sum = avg_color[0]+avg_color[1]+avg_color[2]
-         print(sum)
+         #print(sum)
          result_array = np.append(result_array, sum)
-         y = y+1
+         y = y+3
      return result_array
 
 def calc_ratio(result_array):
@@ -69,11 +70,16 @@ def calc_ratio(result_array):
          neg_array = np.append(neg_array, diff)
          index1=index1+1
      peaks, _ = find_peaks(result_array, height=1)
+     plt.plot(peaks, result_array[peaks], 'x')
+     plt.savefig('result.png')
+     peaks1, _ = find_peaks(neg_array, height=1)
+     plt.plot(peaks, neg_array[peaks], 'x')
+     plt.savefig('neg.png')
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
          point =  peaks[index2]
-         points_array = np.append(points_array, result_array[point])
+         points_array = np.append(points_array, neg_array[point])
          index2=index2+1
      points_array.sort()
      n = len(points_array)-1
@@ -287,4 +293,4 @@ class MainApp(App):
 
 if __name__=="__main__":
     sa = MainApp()
-    sa.r
+    sa.run()
