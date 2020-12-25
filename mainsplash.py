@@ -33,12 +33,6 @@ from subprocess import call
 from kivy.properties import ListProperty
 
 #=============================================================================
-conn = sqlite3.connect('tests.db')
-cursor = conn.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS results (sample_id TEXT,batch_id TEXT,date TEXT,time TEXT,conc_result REAL,test_image BLOB,peak_image BLOB)")
-conn.commit()
-conn.close()
-#------------------------------------------------------------------------------
 
 #================================================================================
 def mov_avgscan(final_image):
@@ -71,13 +65,8 @@ def calc_ratio(result_array):
      peaks1, _ = find_peaks(neg_array, prominence=2)
      plt.plot(neg_array)
      plt.plot(peaks1, neg_array[peaks1], 'x')
-     plt.savefig('peaks.png')
-     peak_image = cv2.imread('/home/pi/view/peaks.png')
-     conn = sqlite3.connect('tests.db')
-     cursor = conn.cursor()
-     cursor.execute("INSERT INTO results(peak_image) VALUES (peak_image) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
-     conn.commit()
-     conn.close()
+     sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
+     plt.savefig(sample_id+'peaks.png')
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
@@ -134,21 +123,7 @@ class choosemode(Screen):
 
 class entersampleid(Screen):
     def verify_sampleid(self):
-        conn = sqlite3.connect('tests.db')
-        cursor = conn.cursor()
-        sample_id = self.ids["new_sampleid"].text
-        cursor.execute("SELECT sample_id FROM results WHERE sample_id=?",(sample_id,))
-        check = cursor.fetchone()
-        if check == None:
-            print('no sampleids found')
-            cursor.execute("INSERT INTO results(sample_id) VALUES (sample_id);")
-            conn.commit()
-            conn.close()
-            self.manager.current='batchid'
-        else:
-            title = "Existing SampleID"
-            msg = "SampleID already exists. Please enter a different id"
-            Popup(self,msg,title)
+        self.manager.current='batchid'
 
     def close(self):
         shutdown(self)
@@ -164,9 +139,6 @@ class enterbatchid(Screen):
             intercept = int(x[0])/1000
             slope = int(x[1])/10000
             self.manager.current = 'instruction'
-            cursor.execute("INSERT INTO results(batch_id) VALUES (batch_id) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
-            conn.commit()
-            conn.close()
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
@@ -179,6 +151,7 @@ class enterbatchid(Screen):
 class instruction(Screen):
     def camcapture(self):
          batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
+         sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)
@@ -186,20 +159,15 @@ class instruction(Screen):
          GPIO.cleanup
          camera.start_preview()
          time.sleep(5)
-         camera.capture('/home/pi/view/capturedimage.jpg')
+         camera.capture('/home/pi/view/'+sample_id+'captured.jpg')
          camera.stop_preview()
          GPIO.output(40,False)
-         input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
+         input_image = cv2.imread('/home/pi/view/'+sample_id+'captured.jpg')
          roi = input_image[170:400, 350:390]
-         cv2.imwrite('/home/pi/view/roi.jpg',roi)
+         cv2.imwrite('/home/pi/view/'+sample_id+'roi.jpg',roi)
          title = "Error reading test"
          msg = "Please ensure test has run properly"
-         roi = cv2.imread('/home/pi/view/roi.jpg')
-         conn = sqlite3.connect('tests.db')
-         cursor = conn.cursor()
-         cursor.execute("INSERT INTO results(test_image) VALUES (roi) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
-         conn.commit()
-         conn.close()
+         roi = cv2.imread('/home/pi/view/'+sample_id+'roi.jpg')
          try:
              results_array = mov_avgscan(roi)
              concentration = calc_ratio(results_array)
@@ -229,38 +197,25 @@ class resultcardtest(Screen):
         self.ids["sample_id"].text = sample_id
         self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
-        conn = sqlite3.connect('tests.db')
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO results(date,time,conc_result) VALUES (datenow,timenow,conc_result) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
-        conn.commit()
-        conn.close()
 
     def saveresults(self):
-        self.manager.current='instruction'
+        f = open("results.csv", a)
+        f.write(sample_id, batch_id, conc_result)
+        f.close()
+        self.manager.current='sampleid'
 
     def discardresults(self):
-        conn = sqlite3.connect('tests.db')
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM results WHERE sample_id=?",(sample_id,))
-        conn.commit()
-        conn.close()
-        self.manager.current='instruction'
+        self.manager.current='sampleid'
     pass
 
 class resultview(Screen):
     rows = ListProperty([("Sample_Id","Batch_Id","Date","Time","Value")])
-    def get_data(self):
-        try:
-            conn = sqlite3.connect('tests.db')
-            cursor = conn.cursor()
-            cursor.execute("SELECT sample_id,batch_id,date,time,conc_result FROM results")
-            self.rows = cursor.fetchall()
-            conn.close()
-            print(self.rows)
-        except:
-             title = "Unable to fetch history"
-             msg = "Please ensure the device is connected"
-             Popup(self,msg,title)
+    #def get_data(self):
+    #    try:
+    #    except:
+    #         title = "Unable to fetch history"
+    #         msg = "Please ensure the device is connected"
+    #         Popup(self,msg,title)
     pass
 
 kv = Builder.load_file("mainsplash.kv")
