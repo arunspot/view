@@ -65,8 +65,7 @@ def calc_ratio(result_array):
      peaks1, _ = find_peaks(neg_array, prominence=2)
      plt.plot(neg_array)
      plt.plot(peaks1, neg_array[peaks1], 'x')
-     sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
-     plt.savefig(sample_id+'peaks.png')
+     plt.savefig('peaks.png')
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
@@ -75,9 +74,14 @@ def calc_ratio(result_array):
          index2=index2+1
      points_array.sort()
      n = len(points_array)-1
-     print(points_array[n], points_array[n-1])
-     peak_ratio = points_array[n-1]/points_array[n]
-     return peak_ratio
+     if (n==1)
+        title = "Negative sample"
+        msg = "Concentration is below limit of detection"
+        Popup(self,msg,title)
+     else
+        print(points_array[n], points_array[n-1])
+        peak_ratio = points_array[n-1]/points_array[n]
+        return peak_ratio
 
 def calconc(peakratio, batch_id):
     x = batch_id.split("_")
@@ -202,6 +206,7 @@ class resultcardtest(Screen):
         f = open("results.csv", a)
         f.write(sample_id, batch_id, conc_result)
         f.close()
+        os.rename('peaks.png',sample_id+'peaks.png')
         self.manager.current='sampleid'
 
     def discardresults(self):
