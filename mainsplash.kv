@@ -830,7 +830,13 @@
                 size: self.size
                 pos: self.pos
         BoxLayout:
-            size_hint_y: 0.8
+            size_hint_y: 0.1
+            Label:
+                id: peakratio
+                text: ''
+                markup: True
+        BoxLayout:
+            size_hint_y: 0.7
             Image:
                 source: 'instruction.png'
         BoxLayout:
