@@ -35,7 +35,7 @@ from kivy.properties import ListProperty
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS results (sample_id TEXT, batch_id TEXT, date TEXT, time TEXT, conc_result REAL, test_image BLOB)")
+cursor.execute("CREATE TABLE IF NOT EXISTS results (sample_id TEXT, batch_id TEXT, date TEXT, time TEXT, conc_result REAL, test_image BLOB, peak_image BLOB)")
 conn.commit()
 conn.close()
 #------------------------------------------------------------------------------
@@ -53,7 +53,6 @@ def mov_avgscan(final_image):
          avg_color_per_row = np.average(line, axis=0)
          avg_color = np.average(avg_color_per_row, axis=0)
          sum = avg_color[0]+avg_color[1]+avg_color[2]
-         #print(sum)
          result_array = np.append(result_array, sum)
          y = y+3
      return result_array
@@ -69,12 +68,16 @@ def calc_ratio(result_array):
          diff=dataNew[base]-dataNew[index1]
          neg_array = np.append(neg_array, diff)
          index1=index1+1
-     peaks, _ = find_peaks(result_array, height=1)
-     plt.plot(peaks, result_array[peaks], 'x')
-     plt.savefig('result.png')
-     peaks1, _ = find_peaks(neg_array, height=1)
-     plt.plot(peaks, neg_array[peaks], 'x')
-     plt.savefig('neg.png')
+     peaks1, _ = find_peaks(neg_array, prominence=2)
+     plt.plot(neg_array)
+     plt.plot(peaks1, neg_array[peaks1], 'x')
+     plt.savefig('peaks.png')
+     peak_image = cv2.imread('/home/pi/view/peaks.png')
+     conn = sqlite3.connect('tests.db')
+     cursor = conn.cursor()
+     cursor.execute("INSERT INTO results(peak_image) VALUES (peak_image) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+     conn.commit()
+     conn.close()
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
@@ -126,32 +129,6 @@ class mainsplash(Screen):
         shutdown(self)
     pass
 
-class enteruserid(Screen):
-    def verify_username(self):
-        title = "Wrong UserId"
-        msg = "Userid is incorrect for Deviceid: VIEAS2001"
-        if self.ids["new_userid"].text == "FHU":
-            self.manager.current='password'
-        else:
-            PopUp(self,msg,title)
-
-    def close(self):
-        shutdown(self)
-    pass
-
-class enterpassword(Screen):
-    def verify_password(self):
-        title = "Wrong Password"
-        msg = "Password is incorrect for Deviceid: VIEAS2001"
-        if self.ids["new_password"].text == "FFH2389":
-            self.manager.current='modes'
-        else:
-            PopUp(self,msg,title)
-
-    def close(self):
-        shutdown(self)
-    pass
-
 class choosemode(Screen):
     pass
 
@@ -162,9 +139,11 @@ class entersampleid(Screen):
         sample_id = self.ids["new_sampleid"].text
         cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(sample_id,))
         check = cursor.fetchone()
-        conn.close()
         if check == None:
             print('no sampleids found')
+            cursor.execute("INSERT INTO results(sample_id) VALUES (sample_id);")
+            conn.commit()
+            conn.close()
             self.manager.current='batchid'
         else:
             title = "Existing SampleID"
@@ -178,11 +157,16 @@ class entersampleid(Screen):
 class enterbatchid(Screen):
     def decode_batchid(self):
         try:
+            conn = sqlite3.connect('tests.db')
+            cursor = conn.cursor()
             batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             intercept = int(x[0])/1000
             slope = int(x[1])/10000
             self.manager.current = 'instruction'
+            cursor.execute("INSERT INTO results(batch_id) VALUES (batch_id) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+            conn.commit()
+            conn.close()
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
@@ -195,7 +179,6 @@ class enterbatchid(Screen):
 class instruction(Screen):
     def camcapture(self):
          batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
-         print(batch_id)
          GPIO.setwarnings(False)
          GPIO.setmode(GPIO.BOARD)
          GPIO.setup(40, GPIO.OUT)
@@ -207,17 +190,21 @@ class instruction(Screen):
          camera.stop_preview()
          GPIO.output(40,False)
          input_image = cv2.imread('/home/pi/view/capturedimage.jpg')
-         roi = input_image[170:630, 350:390]
+         roi = input_image[170:400, 350:390]
          cv2.imwrite('/home/pi/view/roi.jpg',roi)
          title = "Error reading test"
          msg = "Please ensure test has run properly"
          roi = cv2.imread('/home/pi/view/roi.jpg')
+         conn = sqlite3.connect('tests.db')
+         cursor = conn.cursor()
+         cursor.execute("INSERT INTO results(test_image) VALUES (roi) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+         conn.commit()
+         conn.close()
          try:
              results_array = mov_avgscan(roi)
-             peakratio = calc_ratio(results_array)
+             concentration = calc_ratio(results_array)
              #concentration = int(calconc(peakratio, batch_id))
-             #print("concentration calculated", concentration)
-             #self.ids['conc_value'].text = str(concentration)
+             self.ids['peakratio'].text = str(concentration)
          except:
              title = "Unable to read value"
              msg = "Please reinsert the assay"
@@ -229,10 +216,8 @@ class instruction(Screen):
 
 class resultcardtest(Screen):
     def getresults(self):
-        #sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
-        #print('sample_id', sample_id)
-        #batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
-        #print('batch_id', batch_id)
+        sample_id = self.manager.get_screen('sampleid').ids.new_sampleid.text
+        batch_id = self.manager.get_screen('batchid').ids.new_batchid.text
         conc_result = self.manager.get_screen('instruction').ids.peakratio.text
         print('conc', conc_result)
         today = date.today()
@@ -241,21 +226,25 @@ class resultcardtest(Screen):
         timenow = now.strftime("%H:%M:%S")
         self.ids["date"].text = datenow
         self.ids["time"].text = timenow
-        #self.ids["sample_id"].text = sample_id
-        #self.ids["batchid"].text = batch_id
+        self.ids["sample_id"].text = sample_id
+        self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
+        conn = sqlite3.connect('tests.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO results(date, time, conc_result) VALUES (datenow, timenow, conc_result) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+        conn.commit()
+        conn.close()
 
     def saveresults(self):
-        input_image = cv2.imread('/home/pi/view/roi.jpg')
-        #conn = sqlite3.connect('tests.db')
-        #cursor = conn.cursor()
-        #cursor.execute("INSERT INTO results (sample_id,batch_id,date,time,conc_result,test_image) VALUES (self.sample_id, self.batch_id, self.datenow, self.timenow, self.conc_result, input_image)")
-        #conn.commit()
-        #conn.close()
-        self.manager.current='modes'
+        self.manager.current='instruction'
 
     def discardresults(self):
-        self.manager.current='modes'
+        conn = sqlite3.connect('tests.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM results WHERE sample_id=?",(sample_id,))
+        conn.commit()
+        conn.close()
+        self.manager.current='instruction'
     pass
 
 class resultview(Screen):
@@ -277,8 +266,6 @@ class resultview(Screen):
 kv = Builder.load_file("mainsplash.kv")
 sm = ScreenManager()
 sm.add_widget(mainsplash(name='splash'))
-sm.add_widget(enteruserid(name='userid'))
-sm.add_widget(enterpassword(name='password'))
 sm.add_widget(choosemode(name='modes'))
 sm.add_widget(entersampleid(name='sampleid'))
 sm.add_widget(enterbatchid(name='batchid'))
