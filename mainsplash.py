@@ -35,7 +35,7 @@ from kivy.properties import ListProperty
 #=============================================================================
 conn = sqlite3.connect('tests.db')
 cursor = conn.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS results (sample_id TEXT, batch_id TEXT, date TEXT, time TEXT, conc_result REAL, test_image BLOB, peak_image BLOB)")
+cursor.execute("CREATE TABLE IF NOT EXISTS results ("sample_id" TEXT, "batch_id" TEXT, "date" TEXT, "time" TEXT, "conc_result" REAL, "test_image" BLOB, "peak_image" BLOB)")
 conn.commit()
 conn.close()
 #------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ def calc_ratio(result_array):
      peak_image = cv2.imread('/home/pi/view/peaks.png')
      conn = sqlite3.connect('tests.db')
      cursor = conn.cursor()
-     cursor.execute("INSERT INTO results(peak_image) VALUES (peak_image) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+     cursor.execute("INSERT INTO results("peak_image") VALUES (peak_image) WHERE "sample_id"=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
      conn.commit()
      conn.close()
      index2 = 0
@@ -106,9 +106,9 @@ def shutdown(self):
     btn2 = Button(text = "No")
     box.add_widget(btn1)
     box.add_widget(btn2)
+    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     btn1.bind(on_press = os.system("shutdown now -h"))
     btn2.bind(on_press = popup.dismiss)
-    popup = Popup(title="Shutdown", content = box, size_hint=(None, None), size=(430, 200), auto_dismiss = True)
     popup.open()
 
 def PopUp(self,msg,title):
@@ -137,11 +137,11 @@ class entersampleid(Screen):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
         sample_id = self.ids["new_sampleid"].text
-        cursor.execute('SELECT sample_id FROM results WHERE sample_id=?',(sample_id,))
+        cursor.execute("SELECT "sample_id" FROM results WHERE "sample_id"=?",(sample_id,))
         check = cursor.fetchone()
         if check == None:
             print('no sampleids found')
-            cursor.execute("INSERT INTO results(sample_id) VALUES (sample_id);")
+            cursor.execute("INSERT INTO results("sample_id") VALUES (sample_id);")
             conn.commit()
             conn.close()
             self.manager.current='batchid'
@@ -164,7 +164,7 @@ class enterbatchid(Screen):
             intercept = int(x[0])/1000
             slope = int(x[1])/10000
             self.manager.current = 'instruction'
-            cursor.execute("INSERT INTO results(batch_id) VALUES (batch_id) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+            cursor.execute("INSERT INTO results("batch_id") VALUES (batch_id) WHERE "sample_id"=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
             conn.commit()
             conn.close()
         except:
@@ -197,7 +197,7 @@ class instruction(Screen):
          roi = cv2.imread('/home/pi/view/roi.jpg')
          conn = sqlite3.connect('tests.db')
          cursor = conn.cursor()
-         cursor.execute("INSERT INTO results(test_image) VALUES (roi) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+         cursor.execute("INSERT INTO results("test_image") VALUES (roi) WHERE "sample_id"=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
          conn.commit()
          conn.close()
          try:
@@ -231,7 +231,7 @@ class resultcardtest(Screen):
         self.ids["results"].text = str(conc_result)
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO results(date, time, conc_result) VALUES (datenow, timenow, conc_result) WHERE sample_id=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
+        cursor.execute("INSERT INTO results("date", "time", "conc_result") VALUES (datenow, timenow, conc_result) WHERE "sample_id"=?",(self.manager.get_screen('sampleid').ids.new_sampledid.text,))
         conn.commit()
         conn.close()
 
@@ -241,7 +241,7 @@ class resultcardtest(Screen):
     def discardresults(self):
         conn = sqlite3.connect('tests.db')
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM results WHERE sample_id=?",(sample_id,))
+        cursor.execute("DELETE FROM results WHERE "sample_id"=?",(sample_id,))
         conn.commit()
         conn.close()
         self.manager.current='instruction'
@@ -253,7 +253,7 @@ class resultview(Screen):
         try:
             conn = sqlite3.connect('tests.db')
             cursor = conn.cursor()
-            cursor.execute("SELECT sample_id,batch_id,date,time,conc_result FROM results")
+            cursor.execute("SELECT "sample_id","batch_id","date","time","conc_result" FROM results")
             self.rows = cursor.fetchall()
             conn.close()
             print(self.rows)
