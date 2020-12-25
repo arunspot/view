@@ -40,7 +40,7 @@ def mov_avgscan(final_image):
      [a, b] = input.shape[:2]
      result_array = 0
      x = 1
-     y = 5
+     y = 20
      sum = 0
      while (y<(a-3)):
          line = input[y:y+5, x:x+b]
@@ -55,33 +55,30 @@ def calc_ratio(result_array):
      dataNew=result_array[1:-1]
      n = len(dataNew)
      base = round(n/2)
-     index1 = 0
+     index1 = 5
      diff = 0
      neg_array = 0
      while(index1<n):
          diff=dataNew[base]-dataNew[index1]
          neg_array = np.append(neg_array, diff)
          index1=index1+1
-     peaks, _ = find_peaks(neg_array, prominence=2)
-     prominences = peak_prominences(x, peaks)[0]
-     print(prominences)
-     plt.plot(neg_array)
-     plt.plot(peaks, neg_array[peaks], 'x')
+     end = len(neg_array)
+     base = neg_array[end-1]
+     peaks, _ = find_peaks(neg_array-base, distance=25)
+     plt.plot(neg_array-base)
+     plt.plot(peaks, neg_array[peaks]-base, 'x')
      plt.savefig('peaks.png')
      index2 = 0
      points_array = 0
      while(index2<len(peaks)):
          point =  peaks[index2]
-         points_array = np.append(points_array, neg_array[point])
+         points_array = np.append(points_array, (neg_array[point]-base))
          index2=index2+1
      points_array.sort()
      n = len(points_array)-1
      if (n==1):
-        title = "Negative sample"
-        msg = "Concentration is below limit of detection"
-        Popup(msg,title)
         peak_ratio = 0
-    else:
+     else:
         print(points_array[n], points_array[n-1])
         peak_ratio = points_array[n-1]/points_array[n]
         return peak_ratio
@@ -89,9 +86,11 @@ def calc_ratio(result_array):
 def calconc(peakratio, batch_id):
     x = batch_id.split("_")
     intercept = int(x[0])/1000
-    slope = int(x[1])/10000
+    slope = int(x[1])/1000
     conc = (peakratio-intercept)/slope
-    if (conc<0)||(peakratio==0):
+    if (peakratio==0):
+        conc = 0
+    elif (conc < 0):
         conc = 0
     return conc
 
@@ -178,7 +177,7 @@ class instruction(Screen):
          try:
              results_array = mov_avgscan(roi)
              concentration = calc_ratio(results_array)
-             #concentration = int(calconc(peakratio, batch_id))
+             concentration = int(calconc(peakratio, batch_id))
              self.ids['peakratio'].text = str(concentration)
          except:
              title = "Unable to read value"
@@ -204,12 +203,13 @@ class resultcardtest(Screen):
         self.ids["sample_id"].text = sample_id
         self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
-
-    def saveresults(self):
-        f = open("results.csv", a)
-        f.write(sample_id, batch_id, conc_result)
+        f = open("results.csv", "a")
+        string = "sample_id: "+sample_id+"batch_id: "+batch_id+"conc_result: "+conc_result+"date: "+datenow+"time: "+timenow
+        f.write(string)
         f.close()
         os.rename('peaks.png',sample_id+'peaks.png')
+
+    def saveresults(self):
         self.manager.current='sampleid'
 
     def discardresults(self):
