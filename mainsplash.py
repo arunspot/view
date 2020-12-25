@@ -80,6 +80,7 @@ def calc_ratio(result_array):
         title = "Negative sample"
         msg = "Concentration is below limit of detection"
         Popup(msg,title)
+        peak_ratio = 0
     else:
         print(points_array[n], points_array[n-1])
         peak_ratio = points_array[n-1]/points_array[n]
@@ -90,7 +91,7 @@ def calconc(peakratio, batch_id):
     intercept = int(x[0])/1000
     slope = int(x[1])/10000
     conc = (peakratio-intercept)/slope
-    if (conc<0):
+    if (conc<0)||(peakratio==0):
         conc = 0
     return conc
 
