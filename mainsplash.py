@@ -40,7 +40,7 @@ def mov_avgscan(final_image):
      [a, b] = input.shape[:2]
      result_array = 0
      x = 1
-     y = 1
+     y = 5
      sum = 0
      while (y<(a-3)):
          line = input[y:y+5, x:x+b]
@@ -62,9 +62,11 @@ def calc_ratio(result_array):
          diff=dataNew[base]-dataNew[index1]
          neg_array = np.append(neg_array, diff)
          index1=index1+1
-     peaks1, _ = find_peaks(neg_array, prominence=2)
+     peaks, _ = find_peaks(neg_array, prominence=2)
+     prominences = peak_prominences(x, peaks)[0]
+     print(prominences)
      plt.plot(neg_array)
-     plt.plot(peaks1, neg_array[peaks1], 'x')
+     plt.plot(peaks, neg_array[peaks], 'x')
      plt.savefig('peaks.png')
      index2 = 0
      points_array = 0
@@ -74,11 +76,11 @@ def calc_ratio(result_array):
          index2=index2+1
      points_array.sort()
      n = len(points_array)-1
-     if (n==1)
+     if (n==1):
         title = "Negative sample"
         msg = "Concentration is below limit of detection"
         Popup(self,msg,title)
-     else
+    else:
         print(points_array[n], points_array[n-1])
         peak_ratio = points_array[n-1]/points_array[n]
         return peak_ratio
