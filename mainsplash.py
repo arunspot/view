@@ -9,7 +9,7 @@ import matplotlib
 import time
 from time import sleep
 import scipy
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks, peak_prominences
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -79,7 +79,7 @@ def calc_ratio(result_array):
      if (n==1):
         title = "Negative sample"
         msg = "Concentration is below limit of detection"
-        Popup(self,msg,title)
+        Popup(msg,title)
     else:
         print(points_array[n], points_array[n-1])
         peak_ratio = points_array[n-1]/points_array[n]
@@ -106,7 +106,7 @@ def shutdown(self):
     btn2.bind(on_press = popup.dismiss)
     popup.open()
 
-def PopUp(self,msg,title):
+def PopUp(msg,title):
     box = BoxLayout(orientation = 'vertical', padding = (10))
     box.add_widget(Label(text = msg))
     btn1 = Button(text = "Ok")
@@ -148,7 +148,7 @@ class enterbatchid(Screen):
         except:
             title = "Invalid BatchID"
             msg = "Please enter correct batch identification"
-            Popup(self,msg,title)
+            Popup(msg,title)
 
     def close(self):
         shutdown(self)
@@ -182,7 +182,7 @@ class instruction(Screen):
          except:
              title = "Unable to read value"
              msg = "Please reinsert the assay"
-             Popup(self,msg,title)
+             Popup(msg,title)
 
     def close(self):
         shutdown(self)
@@ -222,7 +222,7 @@ class resultview(Screen):
     #    except:
     #         title = "Unable to fetch history"
     #         msg = "Please ensure the device is connected"
-    #         Popup(self,msg,title)
+    #         Popup(msg,title)
     pass
 
 kv = Builder.load_file("mainsplash.kv")
