@@ -9,7 +9,7 @@ import matplotlib
 import time
 from time import sleep
 import scipy
-from scipy.signal import find_peaks, peak_prominences
+from scipy.signal import find_peaks, peak_widths, peak_prominences
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -40,7 +40,7 @@ def mov_avgscan(final_image):
      [a, b] = input.shape[:2]
      result_array = 0
      x = 1
-     y = 20
+     y = 1
      sum = 0
      while (y<(a-3)):
          line = input[y:y+5, x:x+b]
@@ -55,7 +55,7 @@ def calc_ratio(result_array):
      dataNew=result_array[1:-1]
      n = len(dataNew)
      base = round(n/2)
-     index1 = 5
+     index1 = 1
      diff = 0
      neg_array = 0
      while(index1<n):
@@ -64,11 +64,9 @@ def calc_ratio(result_array):
          index1=index1+1
      end = len(neg_array)
      base = neg_array[end-1]
-     peaks, _ = find_peaks(neg_array-base, distance=25)
-     results_half = peak_widths(neg_array-base, peaks, rel_height=0.5)
-     print("results_half", results_half)
-     results_full = peak_widths(neg_array-base, peaks, rel_height=1)
-     print("results_full", results_full)
+     peaks, _ = find_peaks(neg_array-base, threshold=1, width=(1,10))
+     prominences = peak_prominences(neg_array-base, peaks)[0]
+     print("prominences", prominences)
      plt.plot(neg_array-base)
      plt.plot(peaks, neg_array[peaks]-base, 'x')
      plt.savefig('peaks.png')
@@ -79,22 +77,24 @@ def calc_ratio(result_array):
          points_array = np.append(points_array, (neg_array[point]-base))
          index2=index2+1
      points_array.sort()
-     n = len(points_array)-1
+     n = len(points_array)
+     print(points_array)
      if (n==1):
         peak_ratio = 0
      else:
-        print(points_array[n], points_array[n-1])
-        peak_ratio = points_array[n-1]/points_array[n]
+        peak_ratio = points_array[n-2]/points_array[n-1]
         return peak_ratio
 
 def calconc(peakratio, batch_id):
     x = batch_id.split("_")
     intercept = int(x[0])/1000
     slope = int(x[1])/1000
-    conc = (peakratio-intercept)/slope
+    print(peakratio)
     if (peakratio==0):
         conc = 0
-    elif (conc < 0):
+    else:
+        conc = (peakratio-intercept)/slope
+    if (conc<0):
         conc = 0
     return conc
 
