@@ -65,6 +65,10 @@ def calc_ratio(result_array):
      end = len(neg_array)
      base = neg_array[end-1]
      peaks, _ = find_peaks(neg_array-base, distance=25)
+     results_half = peak_widths(neg_array-base, peaks, rel_height=0.5)
+     print("results_half", results_half)
+     results_full = peak_widths(neg_array-base, peaks, rel_height=1)
+     print("results_full", results_full)
      plt.plot(neg_array-base)
      plt.plot(peaks, neg_array[peaks]-base, 'x')
      plt.savefig('peaks.png')
@@ -169,14 +173,14 @@ class instruction(Screen):
          camera.stop_preview()
          GPIO.output(40,False)
          input_image = cv2.imread('/home/pi/view/'+sample_id+'captured.jpg')
-         roi = input_image[170:400, 350:390]
+         roi = input_image[180:500, 350:390]
          cv2.imwrite('/home/pi/view/'+sample_id+'roi.jpg',roi)
          title = "Error reading test"
          msg = "Please ensure test has run properly"
          roi = cv2.imread('/home/pi/view/'+sample_id+'roi.jpg')
          try:
              results_array = mov_avgscan(roi)
-             concentration = calc_ratio(results_array)
+             peakratio = calc_ratio(results_array)
              concentration = int(calconc(peakratio, batch_id))
              self.ids['peakratio'].text = str(concentration)
          except:
@@ -204,11 +208,9 @@ class resultcardtest(Screen):
         self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
         f = open("results.csv", "a")
-        string = "sample_id: "+sample_id+"batch_id: "+batch_id+"conc_result: "+conc_result+"date: "+datenow+"time: "+timenow
+        string = "sample_id: "+sample_id+" batch_id: "+batch_id+" conc_result: "+conc_result+" date: "+datenow+" time: "+timenow
         f.write(string)
         f.close()
-        os.rename('peaks.png',sample_id+'peaks.png')
-
     def saveresults(self):
         self.manager.current='sampleid'
 
