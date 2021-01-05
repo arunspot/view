@@ -28,11 +28,30 @@ from kivy.config import Config
 from kivy.uix.popup import Popup
 from kivy.uix.dropdown import DropDown
 from datetime import date, datetime
-import sqlite3
+# import sqlite3
 from subprocess import call
-from kivy.properties import ListProperty
+import base64
+from dotenv import load_dotenv
+from boto3
 
 #=============================================================================
+load_dotenv() # LOAD .env file
+
+dynamo_client = boto3.client('dynamodb')
+dynamo_db = boto3.resource('dynamodb')
+
+# CHECK FOR EXACT TABLE
+for tableName in dynamo_client.list_tables()['TableNames']:
+	if(tableName.split('-')[0] == "Requisitons"):
+		req_table = dynamo_db.Table(tableName)
+
+item_data = {
+	'device_id': os.environ.get('DEVICE_ID'),
+	'requisition_id': '',
+	'calibration_id': '',
+	'test_results': {},
+	'image': ''
+}
 
 #================================================================================
 def mov_avgscan(final_image):
@@ -142,8 +161,8 @@ class entersampleid(Screen):
 class enterbatchid(Screen):
     def decode_batchid(self):
         try:
-            conn = sqlite3.connect('tests.db')
-            cursor = conn.cursor()
+            # conn = sqlite3.connect('tests.db')
+            # cursor = conn.cursor()
             batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             intercept = int(x[0])/1000
@@ -207,11 +226,19 @@ class resultcardtest(Screen):
         self.ids["sample_id"].text = sample_id
         self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
+
+	   item_data['requisition_id'] = sample_id
+	   item_data['calibration_id'] = batch_id
+	   item_data['test_results'] = { 'CRP' : str(conc_result) }
+	   with open('/home/pi/view/'+sample_id+'roi.jpg') as roi_image:
+		   item_data['image'] = base64.b64encode(roi_image.read())
+	
         f = open("results.csv", "a")
         string = "sample_id: "+sample_id+" batch_id: "+batch_id+" conc_result: "+conc_result+" date: "+datenow+" time: "+timenow
         f.write(string)
         f.close()
     def saveresults(self):
+        req_table.put_item(Item=item_data)
         self.manager.current='sampleid'
 
     def discardresults(self):
