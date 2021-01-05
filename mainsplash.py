@@ -9,7 +9,7 @@ import matplotlib
 import time
 from time import sleep
 import scipy
-from scipy.signal import find_peaks, peak_prominences
+from scipy.signal import find_peaks, peak_widths, peak_prominences
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -27,12 +27,35 @@ from kivy.uix.button import Button
 from kivy.config import Config
 from kivy.uix.popup import Popup
 from kivy.uix.dropdown import DropDown
-from datetime import date, datetime
-import sqlite3
+from datetime import date, datetime, timezone
+# import sqlite3
 from subprocess import call
-from kivy.properties import ListProperty
+import base64
+from dotenv import load_dotenv
+from boto3
 
 #=============================================================================
+load_dotenv() # LOAD .env file
+
+dynamo_client = boto3.client('dynamodb')
+dynamo_db = boto3.resource('dynamodb')
+
+# CHECK FOR EXACT TABLE
+for tableName in dynamo_client.list_tables()['TableNames']:
+	if(tableName.split('-')[0] == "Requisiton"):
+		req_table = dynamo_db.Table(tableName)
+
+item_data = {
+	'device_id': os.environ.get('DEVICE_ID'),
+	'requisition_id': '',
+	'calibration_id': '',
+	'test_results': {},
+	'image': '',
+    'createdAt': '',
+    'updatedAt': '',
+    '_version': 1,
+    '_lastChangedAt': ''
+}
 
 #================================================================================
 def mov_avgscan(final_image):
@@ -40,7 +63,7 @@ def mov_avgscan(final_image):
      [a, b] = input.shape[:2]
      result_array = 0
      x = 1
-     y = 20
+     y = 1
      sum = 0
      while (y<(a-3)):
          line = input[y:y+5, x:x+b]
@@ -55,7 +78,7 @@ def calc_ratio(result_array):
      dataNew=result_array[1:-1]
      n = len(dataNew)
      base = round(n/2)
-     index1 = 5
+     index1 = 1
      diff = 0
      neg_array = 0
      while(index1<n):
@@ -64,11 +87,9 @@ def calc_ratio(result_array):
          index1=index1+1
      end = len(neg_array)
      base = neg_array[end-1]
-     peaks, _ = find_peaks(neg_array-base, distance=25)
-     results_half = peak_widths(neg_array-base, peaks, rel_height=0.5)
-     print("results_half", results_half)
-     results_full = peak_widths(neg_array-base, peaks, rel_height=1)
-     print("results_full", results_full)
+     peaks, _ = find_peaks(neg_array-base, threshold=1, width=(1,10))
+     prominences = peak_prominences(neg_array-base, peaks)[0]
+     print("prominences", prominences)
      plt.plot(neg_array-base)
      plt.plot(peaks, neg_array[peaks]-base, 'x')
      plt.savefig('peaks.png')
@@ -79,22 +100,24 @@ def calc_ratio(result_array):
          points_array = np.append(points_array, (neg_array[point]-base))
          index2=index2+1
      points_array.sort()
-     n = len(points_array)-1
+     n = len(points_array)
+     print(points_array)
      if (n==1):
         peak_ratio = 0
      else:
-        print(points_array[n], points_array[n-1])
-        peak_ratio = points_array[n-1]/points_array[n]
+        peak_ratio = points_array[n-2]/points_array[n-1]
         return peak_ratio
 
 def calconc(peakratio, batch_id):
     x = batch_id.split("_")
     intercept = int(x[0])/1000
     slope = int(x[1])/1000
-    conc = (peakratio-intercept)/slope
+    print(peakratio)
     if (peakratio==0):
         conc = 0
-    elif (conc < 0):
+    else:
+        conc = (peakratio-intercept)/slope
+    if (conc<0):
         conc = 0
     return conc
 
@@ -142,8 +165,8 @@ class entersampleid(Screen):
 class enterbatchid(Screen):
     def decode_batchid(self):
         try:
-            conn = sqlite3.connect('tests.db')
-            cursor = conn.cursor()
+            # conn = sqlite3.connect('tests.db')
+            # cursor = conn.cursor()
             batch_id = self.ids["new_batchid"].text
             x = batch_id.split("_")
             intercept = int(x[0])/1000
@@ -207,11 +230,23 @@ class resultcardtest(Screen):
         self.ids["sample_id"].text = sample_id
         self.ids["batchid"].text = batch_id
         self.ids["results"].text = str(conc_result)
+        
+        current_time = datetime.now(timezone.utc)
+        item_data['requisition_id'] = sample_id
+        item_data['calibration_id'] = batch_id
+        item_data['test_results'] = { 'CRP' : str(conc_result) }
+        item_data['_lastChangedAt'] = int(time.time() * 1000)
+        item_data['createdAt'] = current.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        item_data['updatedAt'] = current.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        with open('/home/pi/view/'+sample_id+'roi.jpg') as roi_image:
+            item_data['image'] = base64.b64encode(roi_image.read())
+	
         f = open("results.csv", "a")
         string = "sample_id: "+sample_id+" batch_id: "+batch_id+" conc_result: "+conc_result+" date: "+datenow+" time: "+timenow
         f.write(string)
         f.close()
     def saveresults(self):
+        req_table.put_item(Item=item_data)
         self.manager.current='sampleid'
 
     def discardresults(self):
@@ -219,13 +254,20 @@ class resultcardtest(Screen):
     pass
 
 class resultview(Screen):
-    rows = ListProperty([("Sample_Id","Batch_Id","Date","Time","Value")])
-    #def get_data(self):
-    #    try:
-    #    except:
-    #         title = "Unable to fetch history"
-    #         msg = "Please ensure the device is connected"
-    #         Popup(msg,title)
+    rows = ListProperty([("Sample_Id","Calibration_Id","TimeStamp","Value")])
+    def get_data(self):
+       try:
+           req_data = req_table.query(
+               KeyConditionExpression=Key('device_id').eq(os.environ.get('DEVICE_ID'))
+           )['Items']
+           rows['Sample_Id'] = req_data['requisition_id']
+           rows['Calibration_Id'] = req_data['calibration_id']
+           rows['TimeStamp'] = time.strftime("%m/%d/%Y, %I:%M:%S %p", time.localtime(int(req_data['_lastChangedAt']) / 1000 + 19800))
+           rows['Value'] = req_data['test_results']['CRP']
+       except:
+            title = "Unable to fetch history"
+            msg = "Please ensure the device is connected"
+            Popup(msg,title)
     pass
 
 kv = Builder.load_file("mainsplash.kv")

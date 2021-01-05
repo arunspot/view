@@ -518,7 +518,7 @@
             on_press: root.get_data()
         RecycleView:
             size_hint_y:0.7
-            data: [{'text':"Sample_Id:{} Batch_Id:{} Date:{} Time:{} Value:{}".format(Sample_Id,Batch_Id,Date,Time,Value)} for Sample_Id,Batch_Id,Date,Time,Value in root.rows]
+            data: [{'text':"Sample_Id:{} Calibration_Id:{} TimeStamp:{} Value:{}".format(Sample_Id,Calibration_Id,TimeStamp,Value)} for Sample_Id,Calibration_Id,TimeStamp,Value in root.rows]
             viewclass: "Label"
             RecycleBoxLayout:
                 default_size: None, dp(56)
